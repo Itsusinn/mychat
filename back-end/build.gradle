@@ -38,6 +38,6 @@ dependencies {
     implementation "org.jetbrains:kotlin-css-jvm:1.0.0-pre.31-kotlin-1.2.41"
     implementation "io.ktor:ktor-auth:$ktor_version"
     implementation "io.ktor:ktor-auth-jwt:$ktor_version"
-    implementation "io.ktor:ktor-gson:$ktor_version"
+    implementation "io.ktor:ktor-jackson:$ktor_version"
     testImplementation "io.ktor:ktor-server-tests:$ktor_version"
 }
