@@ -30,14 +30,13 @@
 export default {
   name: 'NewComment',
   props:{
-    title:String
+    subject:Number
   },
   data(){
     return{
       content:"",
       nick:"",
       email:"",
-      result:""
     }
   },
   methods:{
@@ -47,7 +46,8 @@ export default {
               {
                 nick:this.nick,
                 email:this.email,
-                content:this.content
+                content:this.content,
+                subject:this.subject
               })
           .then(function (respond) {
             console.log(respond)

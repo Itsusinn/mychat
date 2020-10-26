@@ -1,15 +1,18 @@
 package org.meowcat
 
+import com.fasterxml.jackson.databind.SerializationFeature
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.request.*
 import io.ktor.routing.*
 import io.ktor.http.*
-import io.ktor.html.*
-import kotlinx.html.*
 import io.ktor.auth.*
 import io.ktor.features.*
 import io.ktor.jackson.*
+import org.ktorm.entity.add
+import org.meowcat.event.CommentAdd
+import org.meowcat.sqldata.database
+import org.meowcat.sqldata.Comment
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -34,7 +37,9 @@ fun Application.module(testing: Boolean = false) {
     }
 
     install(ContentNegotiation) {
-        jackson {}
+        jackson {
+            enable(SerializationFeature.INDENT_OUTPUT)
+        }
     }
 
     routing {
@@ -43,38 +48,24 @@ fun Application.module(testing: Boolean = false) {
         route("/api/$version/"){
             route("comment"){
                 post("add") {
-                    val request = call.receiveText()
-                    call.respond(HttpStatusCode.Accepted)
+                    val request = call.receiveOrNull<CommentAdd>()
+                    if (request != null) {
+                        val newCommend = Comment{
+                            nick = request.nick
+                            email = request.email
+                            content = request.content
+                            subject = request.subject
+                        }
+                        database.comments.add(newCommend)
+                        call.respond(HttpStatusCode.Accepted,"${newCommend.id}")
+                    }else call.respond(HttpStatusCode.BadRequest,"参数错误").also { return@post }
                     println(request)
                 }
                 get ("get"){
-                    val id = call.parameters["id"]
+                    val id = call.parameters["subject"]
                     if (id.isNullOrEmpty()) call.respond(HttpStatusCode.BadRequest)
-
                 }
             }
-
-        }
-
-        get("/") {
-            call.respondText("HELLO WORLD!", contentType = ContentType.Text.Plain)
-        }
-
-        get("/html-dsl") {
-            call.respondHtml {
-                body {
-                    h1 { +"HTML" }
-                    ul {
-                        for (n in 1..10) {
-                            li { +"$n" }
-                        }
-                    }
-                }
-            }
-        }
-
-        get("/json/gson") {
-            call.respond(mapOf("hello" to "world"))
         }
     }
 }

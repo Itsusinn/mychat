@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png">
-    <NewComment title="Welcome to Your Vue.js App"/>
+    <NewComment subject = 1 ></NewComment>
     <Comment v-bind:comment="ocomment"></Comment>
   </div>
 </template>
