@@ -2,16 +2,31 @@
   <div id="app">
     <img src="./assets/logo.png">
     <NewComment title="Welcome to Your Vue.js App"/>
+    <Comment v-bind:comment="ocomment"></Comment>
   </div>
 </template>
 
 <script>
 import NewComment from './components/NewComment.vue'
+import Comment from "@/components/Comment";
 
 export default {
   name: 'app',
   components: {
-    NewComment
+    NewComment,
+    Comment
+  },
+  data:function () {
+    return{
+      ocomment:""
+    }
+  },
+  created() {
+    this.ocomment = {
+      nick:"abc",
+      email:"abc@abc.com",
+      content:"hello world"
+    }
   }
 }
 </script>

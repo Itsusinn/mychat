@@ -7,7 +7,6 @@ import io.ktor.routing.*
 import io.ktor.http.*
 import io.ktor.html.*
 import kotlinx.html.*
-import kotlinx.css.*
 import io.ktor.auth.*
 import io.ktor.features.*
 import io.ktor.jackson.*
@@ -42,11 +41,19 @@ fun Application.module(testing: Boolean = false) {
         val version ="v1"
 
         route("/api/$version/"){
-            post ("comment/add"){
-                val request = call.receiveText()
-                call.respondText("OK")
-                println(request)
+            route("comment"){
+                post("add") {
+                    val request = call.receiveText()
+                    call.respond(HttpStatusCode.Accepted)
+                    println(request)
+                }
+                get ("get"){
+                    val id = call.parameters["id"]
+                    if (id.isNullOrEmpty()) call.respond(HttpStatusCode.BadRequest)
+
+                }
             }
+
         }
 
         get("/") {
