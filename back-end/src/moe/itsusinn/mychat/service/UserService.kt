@@ -13,4 +13,7 @@ object UserService {
     fun findUserByUid(uid:Int): User?{
         return database.users.find { it.uid eq uid }
     }
+    fun addUser(){
+
+    }
 }

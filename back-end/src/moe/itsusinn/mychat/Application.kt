@@ -7,22 +7,20 @@ import io.ktor.routing.*
 import io.ktor.features.*
 import io.ktor.jackson.*
 import io.ktor.server.netty.*
-import io.ktor.util.*
 import moe.itsusinn.mychat.route.account
 import moe.itsusinn.mychat.route.auth
 import moe.itsusinn.mychat.route.basic
 
 fun main(args: Array<String>) = EngineMain.main(args)
 
-
-@Suppress("unused") // Referenced in application.conf
 @kotlin.jvm.JvmOverloads
 fun Application.module(testing: Boolean = false) {
     //日志打印
     install(CallLogging)
-
+    //内容协商,使用Jackson
     install(ContentNegotiation) {
         jackson {
+            //美化输出,非必要
             enable(SerializationFeature.INDENT_OUTPUT)
         }
     }
@@ -32,10 +30,8 @@ fun Application.module(testing: Boolean = false) {
     account()
     //测试用路由
     routing {
-        route("test"){
-            get {
-                call.respond("Hello")
-            }
+        get("test"){
+            call.respond("Hello")
         }
     }
 }

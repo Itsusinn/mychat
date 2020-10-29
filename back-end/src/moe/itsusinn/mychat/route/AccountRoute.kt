@@ -4,6 +4,8 @@ import io.ktor.application.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import moe.itsusinn.mychat.event.UserRegisterEvent
+import moe.itsusinn.mychat.extend.err
 import moe.itsusinn.mychat.route.jwt.AccountPasswordCredential
 import moe.itsusinn.mychat.route.jwt.JwtConfig
 import moe.itsusinn.mychat.route.jwt.UidPrincipal
@@ -27,6 +29,10 @@ fun Application.account(){
             val token = JwtConfig.makeToken(UidPrincipal(user.uid))
             //返回Token令牌
             call.respond(mapOf("token" to token))
+        }
+        post("register") {
+            val userRegisterEvent = call.receiveOrNull<UserRegisterEvent>() ?: err(call,"UserRegisterEvent Decode Error")
+            userRegisterEvent.account
         }
     }
 }

@@ -3,7 +3,9 @@ package moe.itsusinn.mychat.sql
 
 import org.ktorm.database.Database
 import moe.itsusinn.mychat.extend.appConfig
-
+import moe.itsusinn.mychat.sql.data.Comments
+import moe.itsusinn.mychat.sql.data.Users
+import org.ktorm.entity.sequenceOf
 
 val database by lazy {
     val address = appConfig.property("mysql.address").getString()
@@ -16,3 +18,8 @@ val database by lazy {
             user = user,
             password = password)
 }
+
+val Database.comments
+    get() = this.sequenceOf(Comments)
+val Database.users
+    get() = this.sequenceOf(Users)
