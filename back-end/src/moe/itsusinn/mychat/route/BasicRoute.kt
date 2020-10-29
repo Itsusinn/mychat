@@ -13,6 +13,7 @@ import moe.itsusinn.mychat.route.jwt.UidPrincipal
 import moe.itsusinn.mychat.sql.comments
 import moe.itsusinn.mychat.sql.data.Comment
 import moe.itsusinn.mychat.sql.database
+import moe.itsusinn.mychat.version
 
 fun Application.basic(){
 

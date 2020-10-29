@@ -1,6 +1,7 @@
 package moe.itsusinn.mychat.route
 
 import io.ktor.application.*
+import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
@@ -23,7 +24,7 @@ fun Application.account(){
             val user = UserService.findUserByAccount(credential.account)
             if (user==null||user.password != credential.password){
                 //该用户未注册或密码错误
-                error("Invalid Credentials")
+                err("Invalid Credentials")
             }
             //根据uid签发Token
             val token = JwtConfig.makeToken(UidPrincipal(user.uid))
@@ -31,8 +32,11 @@ fun Application.account(){
             call.respond(mapOf("token" to token))
         }
         post("register") {
-            val userRegisterEvent = call.receiveOrNull<UserRegisterEvent>() ?: err(call,"UserRegisterEvent Decode Error")
-            userRegisterEvent.account
+            val userRegisterEvent = call.receiveOrNull<UserRegisterEvent>()
+                    ?: err("UserRegisterEvent Decode Error")
+            userRegisterEvent.apply {
+                UserService.addUser(account, nick, password)
+            }
         }
     }
 }
