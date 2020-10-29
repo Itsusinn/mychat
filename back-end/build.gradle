@@ -28,6 +28,7 @@ repositories {
     jcenter()
     maven { url 'https://kotlin.bintray.com/ktor' }
     maven { url 'https://kotlin.bintray.com/kotlin-js-wrappers' }
+    maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
 }
 
 dependencies {
@@ -42,4 +43,7 @@ dependencies {
     testImplementation "io.ktor:ktor-server-tests:$ktor_version"
     implementation "org.ktorm:ktorm-core:$ktorm_version"
     implementation 'mysql:mysql-connector-java:8.0.22'
+    implementation "io.ktor:ktor-server-sessions:$ktor_version"
+    implementation "io.ktor:ktor-client-core:$ktor_version"
+    implementation "io.ktor:ktor-client-cio:$ktor_version"
 }
