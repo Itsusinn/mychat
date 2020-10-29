@@ -1,4 +1,4 @@
-package org.meowcat.route
+package moe.itsusinn.mychat.route
 
 import io.ktor.application.*
 import io.ktor.auth.*
@@ -8,21 +8,23 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.util.*
 import org.ktorm.entity.add
-import org.meowcat.data.CommentAddEvent
-import org.meowcat.extend.comments
-import org.meowcat.sqldata.Comment
-import org.meowcat.sqldata.database
+import moe.itsusinn.mychat.event.CommentAddEvent
+import moe.itsusinn.mychat.route.jwt.UidPrincipal
+import moe.itsusinn.mychat.sql.comments
+import moe.itsusinn.mychat.sql.data.Comment
+import moe.itsusinn.mychat.sql.database
 
-@KtorExperimentalAPI
-fun Application.route(){
-    val version ="v1"
+fun Application.basic(){
 
     routing {
         route("/api/$version/"){
 
-            authenticate("org.meowcat.route.auth") {
+            authenticate {
                 route("comment"){
                     post("add") {
+                        //解码&签名认证
+                        val principal = call.principal<UidPrincipal>() ?: error("No principal decoded")
+                        val uid = principal.uid
                         val commentAddEvent = call.receiveOrNull<CommentAddEvent>()
                         if (commentAddEvent != null) {
                             val newComment = Comment{

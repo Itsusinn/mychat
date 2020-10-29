@@ -1,4 +1,4 @@
-package org.meowcat
+package moe.itsusinn.mychat
 
 import com.fasterxml.jackson.databind.SerializationFeature
 import io.ktor.application.*
@@ -8,23 +8,17 @@ import io.ktor.features.*
 import io.ktor.jackson.*
 import io.ktor.server.netty.*
 import io.ktor.util.*
-import org.meowcat.route.auth
-import org.meowcat.route.route
-import org.meowcat.sqldata.database
+import moe.itsusinn.mychat.route.account
+import moe.itsusinn.mychat.route.auth
+import moe.itsusinn.mychat.route.basic
 
-fun main(args: Array<String>) = run {
-    EngineMain.main(args)
-}
+fun main(args: Array<String>) = EngineMain.main(args)
 
-@KtorExperimentalAPI
+
 @Suppress("unused") // Referenced in application.conf
 @kotlin.jvm.JvmOverloads
 fun Application.module(testing: Boolean = false) {
-
-    database()
-
-    auth()
-
+    //日志打印
     install(CallLogging)
 
     install(ContentNegotiation) {
@@ -32,9 +26,11 @@ fun Application.module(testing: Boolean = false) {
             enable(SerializationFeature.INDENT_OUTPUT)
         }
     }
-
-    route()
-
+    //无顺序
+    basic()
+    auth()
+    account()
+    //测试用路由
     routing {
         route("test"){
             get {

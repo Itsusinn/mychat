@@ -1,18 +1,9 @@
 package org.meowcat
 
-import io.ktor.application.*
-import io.ktor.response.*
-import io.ktor.request.*
-import io.ktor.routing.*
 import io.ktor.http.*
-import io.ktor.html.*
-import kotlinx.html.*
-import kotlinx.css.*
-import io.ktor.auth.*
-import io.ktor.gson.*
-import io.ktor.features.*
 import kotlin.test.*
 import io.ktor.server.testing.*
+import moe.itsusinn.mychat.module
 
 class ApplicationTest {
     @Test

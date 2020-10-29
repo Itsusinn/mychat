@@ -1,4 +1,4 @@
-package org.meowcat.sqldata
+package moe.itsusinn.mychat.sql.data
 
 import org.ktorm.schema.Table
 import org.ktorm.schema.int
