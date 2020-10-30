@@ -2,19 +2,16 @@ package moe.itsusinn.mychat.route
 
 import io.ktor.application.*
 import io.ktor.auth.*
-import io.ktor.auth.jwt.*
-import io.ktor.features.*
-import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import moe.itsusinn.mychat.err
 import moe.itsusinn.mychat.route.jwt.*
 import moe.itsusinn.mychat.service.UserService
+import moe.itsusinn.mychat.service.tokenList
+import java.util.*
 
 fun Application.auth(){
-
-
 
     routing {
 
@@ -30,10 +27,22 @@ fun Application.auth(){
                 //该用户未注册或密码错误
                 err("Invalid Credentials")
             }
-            val token = JwtConfig.makeToken(user.uid)
-            //TODO 保存到Redis
+            //UUID作为jwt标识符
+            val uuid = UUID.randomUUID()
+            val token = JwtConfig.makeToken(user.uid,uuid)
+
+            tokenList.add("TOKEN:${user.uid}:$uuid")
+
             //返回accessToken令牌
             call.respond(mapOf("token" to token))
+        }
+
+        authenticate {
+            get("logout"){
+                val principal = call.principal<UidPrincipal>() ?: err("No principal decoded")
+                tokenList.remove("TOKEN:${principal.uid}:${principal.uuid}")
+                call.respond("Logout Successfully")
+            }
         }
     }
 

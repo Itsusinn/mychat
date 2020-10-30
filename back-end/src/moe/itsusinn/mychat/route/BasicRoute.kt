@@ -25,14 +25,13 @@ fun Application.basic(){
                         //解码&签名认证
                         val principal = call.principal<UidPrincipal>()
                                 ?: err("No principal decoded")
-                        var uid = principal.uid
 
                         val commentAddEvent = call.receiveOrNull<CommentAddEvent>()
                                 ?: err("参数错误")
 
                         val newComment = Comment{
                             email = commentAddEvent.email
-                            uid = commentAddEvent.uid
+                            uid = principal.uid
                             content = commentAddEvent.content
                             subject = commentAddEvent.subject
                         }

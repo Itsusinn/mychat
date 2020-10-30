@@ -26,9 +26,10 @@ object JwtConfig {
     /**
      * 签发Token
      */
-    fun makeToken(uid: Int): String = JWT.create()
+    fun makeToken(uid: Int,uuid: UUID): String = JWT.create()
             .withSubject("MyChat")
             .withIssuer(issuer)
+            .withJWTId(uuid.toString())
             .withClaim("uid",uid.toString())
             .withExpiresAt(Date(validityInMs))
             .sign(algorithm)

@@ -1,5 +1,25 @@
 package moe.itsusinn.mychat.service
 
-object RedisService {
+import moe.itsusinn.mychat.service.RedisService.tokenList
+import org.redisson.Redisson
+import org.redisson.api.RList
+import org.redisson.api.RedissonClient
+import org.redisson.config.Config
+import java.util.concurrent.TimeUnit
 
+
+/**
+ * @property tokenList "TOKEN:${user.uid}:$uuid"
+ */
+object RedisService {
+    private val config = Config().apply {
+        this.useSingleServer().setTimeout(1000000).address = "redis://127.0.0.1:6379"
+    }
+    private val redisson: RedissonClient = Redisson.create(config)
+
+
+    val tokenList:RList<String> = redisson.getList("tokenList")
+    init {
+        tokenList.expire(7, TimeUnit.DAYS)
+    }
 }

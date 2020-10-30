@@ -15,6 +15,7 @@ import moe.itsusinn.mychat.route.auth
 import moe.itsusinn.mychat.route.basic
 import moe.itsusinn.mychat.route.jwt.UidPrincipal
 import moe.itsusinn.mychat.route.jwt.JwtConfig
+import moe.itsusinn.mychat.service.tokenList
 
 fun main(args: Array<String>) = EngineMain.main(args)
 
@@ -26,7 +27,13 @@ fun Application.module(testing: Boolean = false) {
         jwt {
             verifier(JwtConfig.verifier)
             validate {
-                UidPrincipal(it.payload.getClaim("uid").asString().toInt())
+                val uid = it.payload.getClaim("uid").asString().toInt()
+                val uuid = it.payload.id
+                if (tokenList.contains("TOKEN:$uid:$uuid")){
+                    UidPrincipal(uid,uuid)
+                }else{
+                    null
+                }
             }
         }
         //设置跨域
@@ -52,10 +59,4 @@ fun Application.module(testing: Boolean = false) {
     basic()
     auth()
     account()
-    //测试用路由
-    routing {
-        get("test"){
-            call.respond("Hello")
-        }
-    }
 }
