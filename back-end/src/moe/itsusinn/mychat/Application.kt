@@ -26,7 +26,7 @@ fun Application.module(testing: Boolean = false) {
         jwt {
             verifier(JwtConfig.verifier)
             validate {
-                UidPrincipal(it.payload.getClaim("name").asInt())
+                UidPrincipal(it.payload.getClaim("uid").asString().toInt())
             }
         }
         //设置跨域
