@@ -11,10 +11,10 @@ import io.ktor.util.pipeline.*
 @KtorExperimentalAPI
 val appConfig = HoconApplicationConfig(ConfigFactory.load())
 
-suspend fun PipelineContext<Unit,ApplicationCall>.err(message: Any): Nothing{
+suspend inline fun PipelineContext<Unit,ApplicationCall>.err(message: Any): Nothing{
     err(HttpStatusCode.BadRequest,message)
 }
-suspend fun PipelineContext<Unit,ApplicationCall>.err(httpStatusCode: HttpStatusCode, message: Any,): Nothing{
+suspend inline fun PipelineContext<Unit,ApplicationCall>.err(httpStatusCode: HttpStatusCode, message: Any,): Nothing{
     call.respond(httpStatusCode,message.toString())
     throw IllegalStateException(message.toString())
 }

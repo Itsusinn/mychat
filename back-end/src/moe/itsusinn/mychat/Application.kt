@@ -2,19 +2,43 @@ package moe.itsusinn.mychat
 
 import com.fasterxml.jackson.databind.SerializationFeature
 import io.ktor.application.*
+import io.ktor.auth.*
+import io.ktor.auth.jwt.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.features.*
+import io.ktor.http.*
 import io.ktor.jackson.*
 import io.ktor.server.netty.*
 import moe.itsusinn.mychat.route.account
 import moe.itsusinn.mychat.route.auth
 import moe.itsusinn.mychat.route.basic
+import moe.itsusinn.mychat.route.jwt.UidPrincipal
+import moe.itsusinn.mychat.route.jwt.JwtConfig
 
 fun main(args: Array<String>) = EngineMain.main(args)
 
 @kotlin.jvm.JvmOverloads
 fun Application.module(testing: Boolean = false) {
+
+    install(Authentication) {
+        //设置jwt
+        jwt {
+            verifier(JwtConfig.verifier)
+            validate {
+                UidPrincipal(it.payload.getClaim("name").asInt())
+            }
+        }
+        //设置跨域
+        install(CORS){
+            header(HttpHeaders.AccessControlAllowHeaders)
+            header(HttpHeaders.ContentType)
+            header(HttpHeaders.AccessControlAllowOrigin)
+            allowCredentials = true
+            anyHost()
+        }
+
+    }
     //日志打印
     install(CallLogging)
     //内容协商,使用Jackson
