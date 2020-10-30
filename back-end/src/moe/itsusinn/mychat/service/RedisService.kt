@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit
 
 
 /**
- * @property tokenList "TOKEN:${user.uid}:$uuid"
+ * @property tokenList "TOKEN:${user.uid}:$token.uuid"
  */
 object RedisService {
     private val config = Config().apply {
@@ -20,6 +20,7 @@ object RedisService {
 
     val tokenList:RList<String> = redisson.getList("tokenList")
     init {
+        tokenList.add("PreventExpireNotWork")
         tokenList.expire(7, TimeUnit.DAYS)
     }
 }

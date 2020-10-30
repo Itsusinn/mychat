@@ -27,9 +27,13 @@ fun Application.module(testing: Boolean = false) {
         jwt {
             verifier(JwtConfig.verifier)
             validate {
+
                 val uid = it.payload.getClaim("uid").asString().toInt()
                 val uuid = it.payload.id
+
                 if (tokenList.contains("TOKEN:$uid:$uuid")){
+                    //延长失效时间
+                    tokenList.add("TOKEN:$uid:$uuid")
                     UidPrincipal(uid,uuid)
                 }else{
                     null
