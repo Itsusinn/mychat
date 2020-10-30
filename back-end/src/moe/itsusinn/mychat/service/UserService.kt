@@ -1,7 +1,5 @@
 package moe.itsusinn.mychat.service
 
-import io.ktor.application.*
-import moe.itsusinn.mychat.extend.err
 import moe.itsusinn.mychat.sql.data.User
 import moe.itsusinn.mychat.sql.database
 import moe.itsusinn.mychat.sql.users

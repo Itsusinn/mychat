@@ -1,4 +1,4 @@
-package moe.itsusinn.mychat.extend
+package moe.itsusinn.mychat
 
 import com.typesafe.config.ConfigFactory
 import io.ktor.application.*

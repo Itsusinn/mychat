@@ -5,7 +5,6 @@ import org.ktorm.schema.Table
 import org.ktorm.schema.int
 import org.ktorm.schema.varchar
 
-
 interface User : Entity<User> {
     companion object : Entity.Factory<User>()
     var uid: Int

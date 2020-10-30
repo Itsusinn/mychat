@@ -3,7 +3,7 @@ package moe.itsusinn.mychat.route.jwt
 
 import com.auth0.jwt.*
 import com.auth0.jwt.algorithms.*
-import moe.itsusinn.mychat.extend.appConfig
+import moe.itsusinn.mychat.appConfig
 import java.util.*
 
 object JwtConfig {
@@ -13,7 +13,8 @@ object JwtConfig {
     //签发者
     private val issuer = appConfig.property("jwt.issuer").toString()
 
-    private const val validityInMs = 36_000_00 * 24 * 15// 15 days
+    private const val validityInMs = 36_000_00 * 10 // 10 hours
+
     private val algorithm = Algorithm.HMAC512(secret)
 
     //解密用JWT
@@ -23,12 +24,24 @@ object JwtConfig {
             .build()
 
     /**
-     * 签发Token
+     * 签发AccessToken
      */
-    fun makeToken(user: UidPrincipal): String = JWT.create()
-            .withSubject("Authentication")
+    fun makeAccessToken(refreshTokenCredential: RefreshTokenCredential): String = JWT.create()
+            .withSubject("AccessTokenMaker")
             .withIssuer(issuer)
-            .withClaim("uid", user.uid)
+            .withClaim("uid",refreshTokenCredential.uid.toString())
+            .withAudience(refreshTokenCredential.uid.toString())
+            .withExpiresAt(getExpiration())
+            .sign(algorithm)
+
+    /**
+     * 签发RefreshToken
+     */
+    fun makeRefreshToken(uid:Int):String = JWT.create()
+            .withSubject("RefreshTokenMaker")
+            .withIssuer(issuer)
+            .withClaim("uid",uid.toString())
+            .withAudience(uid.toString())
             .withExpiresAt(getExpiration())
             .sign(algorithm)
 

@@ -6,10 +6,9 @@ import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import io.ktor.util.*
+import moe.itsusinn.mychat.CommentAddEvent
 import org.ktorm.entity.add
-import moe.itsusinn.mychat.event.CommentAddEvent
-import moe.itsusinn.mychat.route.jwt.UidPrincipal
+import moe.itsusinn.mychat.route.jwt.AccessTokenPrincipal
 import moe.itsusinn.mychat.sql.comments
 import moe.itsusinn.mychat.sql.data.Comment
 import moe.itsusinn.mychat.sql.database
@@ -24,7 +23,7 @@ fun Application.basic(){
                 route("comment"){
                     post("add") {
                         //解码&签名认证
-                        val principal = call.principal<UidPrincipal>() ?: error("No principal decoded")
+                        val principal = call.principal<AccessTokenPrincipal>() ?: error("No principal decoded")
                         val uid = principal.uid
                         val commentAddEvent = call.receiveOrNull<CommentAddEvent>()
                         if (commentAddEvent != null) {
