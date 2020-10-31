@@ -11,3 +11,8 @@ CREATE TABLE Users(
     nick varchar(40) not null,
     password varchar(40) not null
 );
+CREATE TABLE Posts(
+    id int not null primary key auto_increment,
+    title varchar(40) not null,
+    creator int not null
+);

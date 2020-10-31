@@ -1,6 +1,5 @@
 package moe.itsusinn.mychat.service
 
-import moe.itsusinn.mychat.route.jwt.UidPrincipal
 import moe.itsusinn.mychat.service.RedisService.sessionList
 import org.redisson.Redisson
 import org.redisson.api.RList
@@ -8,7 +7,6 @@ import org.redisson.api.RMap
 import org.redisson.api.RedissonClient
 import org.redisson.config.Config
 import java.util.concurrent.TimeUnit
-
 
 /**
  * @property sessionList "$uid:$uuid"

@@ -8,9 +8,7 @@ import io.ktor.features.*
 import io.ktor.http.*
 import io.ktor.jackson.*
 import io.ktor.server.netty.*
-import moe.itsusinn.mychat.route.account
-import moe.itsusinn.mychat.route.auth
-import moe.itsusinn.mychat.route.basic
+import moe.itsusinn.mychat.route.*
 import moe.itsusinn.mychat.route.jwt.UidPrincipal
 import moe.itsusinn.mychat.route.jwt.JwtConfig
 import moe.itsusinn.mychat.service.RedisService
@@ -54,7 +52,5 @@ fun Application.module(testing: Boolean = false) {
         }
     }
     //无顺序
-    basic()
-    auth()
-    account()
+    routes()
 }
