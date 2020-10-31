@@ -17,7 +17,7 @@ fun Application.account(){
             val userRegisterEvent = call.receiveOrNull<UserRegisterEvent>()
                     ?: err("UserRegisterEvent Decode Error")
             userRegisterEvent.apply {
-                val user = UserService.addUser(account, nick, password)
+                val user = UserService.addNewUser(account, nick, password)
                         ?: err("User create failed")
                 call.respond("uid: ${user.uid}")
             }

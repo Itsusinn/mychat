@@ -4,8 +4,6 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.auth.jwt.*
-import io.ktor.response.*
-import io.ktor.routing.*
 import io.ktor.features.*
 import io.ktor.http.*
 import io.ktor.jackson.*
@@ -15,7 +13,7 @@ import moe.itsusinn.mychat.route.auth
 import moe.itsusinn.mychat.route.basic
 import moe.itsusinn.mychat.route.jwt.UidPrincipal
 import moe.itsusinn.mychat.route.jwt.JwtConfig
-import moe.itsusinn.mychat.service.tokenList
+import moe.itsusinn.mychat.service.sessionList
 
 fun main(args: Array<String>) = EngineMain.main(args)
 
@@ -31,9 +29,9 @@ fun Application.module(testing: Boolean = false) {
                 val uid = it.payload.getClaim("uid").asString().toInt()
                 val uuid = it.payload.id
 
-                if (tokenList.contains("TOKEN:$uid:$uuid")){
+                if (sessionList.contains("TOKEN:$uid:$uuid")){
                     //延长失效时间
-                    tokenList.add("TOKEN:$uid:$uuid")
+                    sessionList.add("TOKEN:$uid:$uuid")
                     UidPrincipal(uid,uuid)
                 }else{
                     null

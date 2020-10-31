@@ -4,6 +4,7 @@ package moe.itsusinn.mychat.sql
 import org.ktorm.database.Database
 import moe.itsusinn.mychat.appConfig
 import moe.itsusinn.mychat.sql.data.Comments
+import moe.itsusinn.mychat.sql.data.User
 import moe.itsusinn.mychat.sql.data.Users
 import org.ktorm.entity.sequenceOf
 

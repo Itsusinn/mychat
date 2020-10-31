@@ -8,7 +8,7 @@ import io.ktor.routing.*
 import moe.itsusinn.mychat.err
 import moe.itsusinn.mychat.route.jwt.*
 import moe.itsusinn.mychat.service.UserService
-import moe.itsusinn.mychat.service.tokenList
+import moe.itsusinn.mychat.service.sessionList
 import java.util.*
 
 fun Application.auth(){
@@ -31,7 +31,7 @@ fun Application.auth(){
             val uuid = UUID.randomUUID()
             val token = JwtConfig.makeToken(user.uid,uuid)
 
-            tokenList.add("TOKEN:${user.uid}:$uuid")
+            sessionList.add("TOKEN:${user.uid}:$uuid")
 
             //返回accessToken令牌
             call.respond(mapOf("token" to token))
@@ -40,7 +40,7 @@ fun Application.auth(){
         authenticate {
             get("logout"){
                 val principal = call.principal<UidPrincipal>() ?: err("No principal decoded")
-                tokenList.remove("TOKEN:${principal.uid}:${principal.uuid}")
+                sessionList.remove("TOKEN:${principal.uid}:${principal.uuid}")
                 call.respond("Logout Successfully")
             }
         }
