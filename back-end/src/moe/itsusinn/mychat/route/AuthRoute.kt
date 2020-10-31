@@ -8,8 +8,6 @@ import io.ktor.routing.*
 import moe.itsusinn.mychat.err
 import moe.itsusinn.mychat.route.jwt.*
 import moe.itsusinn.mychat.service.UserService
-import moe.itsusinn.mychat.service.sessionList
-import java.util.*
 
 fun Application.auth(){
 
@@ -20,27 +18,20 @@ fun Application.auth(){
             //从请求体中接收凭证
             val credential = call.receiveOrNull<AccountPasswordCredential>()
                     ?: err("No AccountPasswordCredential Decoded")
-            //从mysql中获取User实例,并校检密码的正确性
-            val user = UserService.findUserByAccount(credential.account)
-            //用户不存在,或密码错误
-            if (user==null||user.password != credential.password){
-                //该用户未注册或密码错误
-                err("Invalid Credentials")
-            }
+            //登录该用户
+            val uidPrincipal = UserService.login(credential.account,credential.password)
+                    ?: err("UidPrincipal Create Failed")
             //UUID作为jwt标识符
-            val uuid = UUID.randomUUID()
-            val token = JwtConfig.makeToken(user.uid,uuid)
-
-            sessionList.add("TOKEN:${user.uid}:$uuid")
-
+            val token = JwtConfig.makeToken(uidPrincipal.uid,uidPrincipal.uuid)
             //返回accessToken令牌
             call.respond(mapOf("token" to token))
         }
 
         authenticate {
             get("logout"){
-                val principal = call.principal<UidPrincipal>() ?: err("No principal decoded")
-                sessionList.remove("TOKEN:${principal.uid}:${principal.uuid}")
+                val principal = call.principal<UidPrincipal>()
+                        ?: err("No principal decoded")
+                UserService.logout(principal.uid,principal.uuid)
                 call.respond("Logout Successfully")
             }
         }

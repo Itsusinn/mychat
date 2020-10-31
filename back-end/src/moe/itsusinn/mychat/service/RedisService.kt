@@ -1,5 +1,6 @@
 package moe.itsusinn.mychat.service
 
+import moe.itsusinn.mychat.route.jwt.UidPrincipal
 import moe.itsusinn.mychat.service.RedisService.sessionList
 import org.redisson.Redisson
 import org.redisson.api.RList
@@ -23,6 +24,7 @@ object RedisService {
     private val uuidMap:RMap<String,String> = redisson.getMap("uuidList")
     init {
         sessionList.add("PreventExpireNotWork")
+        //7天过期
         sessionList.expire(7, TimeUnit.DAYS)
     }
 
@@ -33,7 +35,16 @@ object RedisService {
         setMeanwhile(uid,meanwhile)
     }
     fun isOnline(uid:Int,uuid:String):Boolean{
-        return sessionList.contains("$uid:$uuid")
+        return sessionList.contains("$uid:$uuid").also {online ->
+            //session过期的情况
+            if (!online){
+                val meanwhile = getMeanwhile(uid)
+                meanwhile.forEach {
+                    if(it == uuid){meanwhile.remove(it)}
+                }
+                setMeanwhile(uid,meanwhile)
+            }
+        }
     }
     fun logout(uid:Int,uuid:String){
         sessionList.remove("$uid:$uuid")

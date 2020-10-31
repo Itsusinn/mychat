@@ -26,7 +26,7 @@ object JwtConfig {
     /**
      * 签发Token
      */
-    fun makeToken(uid: Int,uuid: UUID): String = JWT.create()
+    fun makeToken(uid: Int,uuid: String): String = JWT.create()
             .withSubject("MyChat")
             .withIssuer(issuer)
             .withJWTId(uuid.toString())

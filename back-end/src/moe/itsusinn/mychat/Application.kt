@@ -13,7 +13,7 @@ import moe.itsusinn.mychat.route.auth
 import moe.itsusinn.mychat.route.basic
 import moe.itsusinn.mychat.route.jwt.UidPrincipal
 import moe.itsusinn.mychat.route.jwt.JwtConfig
-import moe.itsusinn.mychat.service.sessionList
+import moe.itsusinn.mychat.service.RedisService
 
 fun main(args: Array<String>) = EngineMain.main(args)
 
@@ -25,14 +25,10 @@ fun Application.module(testing: Boolean = false) {
         jwt {
             verifier(JwtConfig.verifier)
             validate {
-
                 val uid = it.payload.getClaim("uid").asString().toInt()
                 val uuid = it.payload.id
-
-                if (sessionList.contains("TOKEN:$uid:$uuid")){
-                    //延长失效时间
-                    sessionList.add("TOKEN:$uid:$uuid")
-                    UidPrincipal(uid,uuid)
+                if (RedisService.isOnline(uid, uuid)){
+                    UidPrincipal(uid, uuid)
                 }else{
                     null
                 }
