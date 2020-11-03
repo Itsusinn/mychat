@@ -2,7 +2,6 @@ CREATE TABLE Comments(
     id int not null primary key auto_increment,
     subject int not null,
     uid int not null,
-    email char(40) not null,
     content text(500) not null
 );
 CREATE TABLE Users(
@@ -14,5 +13,5 @@ CREATE TABLE Users(
 CREATE TABLE Posts(
     id int not null primary key auto_increment,
     title varchar(40) not null,
-    creator int not null
+    author int not null
 );

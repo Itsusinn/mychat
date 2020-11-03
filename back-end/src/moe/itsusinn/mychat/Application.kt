@@ -7,6 +7,7 @@ import io.ktor.auth.jwt.*
 import io.ktor.features.*
 import io.ktor.http.*
 import io.ktor.jackson.*
+import io.ktor.response.*
 import io.ktor.server.netty.*
 import moe.itsusinn.mychat.route.*
 import moe.itsusinn.mychat.route.jwt.UidPrincipal
@@ -25,9 +26,11 @@ fun Application.module(testing: Boolean = false) {
             validate {
                 val uid = it.payload.getClaim("uid").asString().toInt()
                 val uuid = it.payload.id
+                //判断缓存是否还存在该回话
                 if (RedisService.isOnline(uid, uuid)){
                     UidPrincipal(uid, uuid)
                 }else{
+                    this.respond("Outdated Credential")
                     null
                 }
             }

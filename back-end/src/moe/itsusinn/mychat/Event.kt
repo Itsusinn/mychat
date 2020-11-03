@@ -9,3 +9,5 @@ data class CommentAddEvent(val subject:Int,
 data class UserRegisterEvent(val account:String,
                              val nick:String,
                              val password:String)
+
+data class PostAddEvent(val title:String?)

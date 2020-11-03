@@ -8,12 +8,8 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import moe.itsusinn.mychat.CommentAddEvent
 import moe.itsusinn.mychat.err
-import org.ktorm.entity.add
 import moe.itsusinn.mychat.route.jwt.UidPrincipal
-import moe.itsusinn.mychat.sql.comments
-import moe.itsusinn.mychat.sql.data.Comment
-import moe.itsusinn.mychat.sql.database
-import moe.itsusinn.mychat.version
+import moe.itsusinn.mychat.service.PostService
 
 fun Route.commentRoute(){
     route("comment"){
@@ -26,16 +22,12 @@ fun Route.commentRoute(){
                 val commentAddEvent = call.receiveOrNull<CommentAddEvent>()
                         ?: err("参数错误")
 
-                val newComment = Comment{
-                    email = commentAddEvent.email
-                    uid = principal.uid
-                    content = commentAddEvent.content
-                    subject = commentAddEvent.subject
-                }
-                database.comments.add(newComment)
-                call.respond(HttpStatusCode.Accepted,"${newComment.id}")
+                val uid = principal.uid
+                val content = commentAddEvent.content
+                val subject = commentAddEvent.subject
 
-                println(commentAddEvent)
+                val newComment = PostService.addComment(uid,content,subject)
+                call.respond(HttpStatusCode.Accepted,"${newComment.id}")
             }
         }
 
