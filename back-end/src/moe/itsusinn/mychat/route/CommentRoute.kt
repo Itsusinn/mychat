@@ -26,7 +26,9 @@ fun Route.commentRoute(){
                 val subject = commentAddEvent.subject
 
                 val newComment = PostService.addComment(uid,content,subject)
-                call.respond(HttpStatusCode.Accepted,"${newComment.id}")
+                //return the comment's id
+                val result = createResult(Status.Success,"id" to newComment.id)
+                call.respond(result)
             }
         }
 

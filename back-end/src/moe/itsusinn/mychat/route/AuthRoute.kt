@@ -21,14 +21,29 @@ fun Route.authRoute(){
         //UUID作为jwt标识符
         val token = JwtConfig.makeToken(uidPrincipal.uid,uidPrincipal.uuid)
         //返回accessToken令牌
-        call.respond(mapOf("token" to token))
+        val result = createResult(Status.Success,"token" to token)
+        call.respond(result)
     }
 
     authenticate {
+        /**
+         * only logout the current session
+         */
         get("logout"){
             val principal = principal()
             UserService.logout(principal.uid,principal.uuid)
-            call.respond("Logout Successfully")
+
+            val result = createResult(Status.Success,"msg" to "Logout Successfully")
+            call.respond(result)
+        }
+        /**
+         * logout all the user's sessions
+         */
+        get("logout-all"){
+            val principal = principal()
+            UserService.logoutAll(principal.uid)
+            val result = createResult(Status.Success,"msg" to "Logout-All Successfully")
+            call.respond(result)
         }
     }
 }
