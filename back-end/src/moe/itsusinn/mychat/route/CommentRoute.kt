@@ -9,6 +9,7 @@ import io.ktor.routing.*
 import moe.itsusinn.mychat.CommentAddEvent
 import moe.itsusinn.mychat.err
 import moe.itsusinn.mychat.route.jwt.UidPrincipal
+import moe.itsusinn.mychat.route.jwt.principal
 import moe.itsusinn.mychat.service.PostService
 
 fun Route.commentRoute(){
@@ -16,9 +17,7 @@ fun Route.commentRoute(){
         authenticate {
             post("add") {
                 //解码&签名认证
-                val principal = call.principal<UidPrincipal>()
-                        ?: err("No principal decoded")
-
+                val principal = principal()
                 val commentAddEvent = call.receiveOrNull<CommentAddEvent>()
                         ?: err("参数错误")
 

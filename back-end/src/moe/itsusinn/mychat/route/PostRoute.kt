@@ -8,16 +8,14 @@ import io.ktor.routing.*
 import moe.itsusinn.mychat.PostAddEvent
 import moe.itsusinn.mychat.err
 import moe.itsusinn.mychat.route.jwt.UidPrincipal
+import moe.itsusinn.mychat.route.jwt.principal
 import moe.itsusinn.mychat.service.PostService
 
 fun Route.postRoute(){
     authenticate {
         route("post"){
             post("add") {
-                //解码&签名认证
-                val principal = call.principal<UidPrincipal>()
-                    ?: err("No principal decoded")
-
+                val principal = principal()
                 val postAddEvent = call.receiveOrNull<PostAddEvent>()
                     ?: err("Wrong PostAddEvent Format")
 
@@ -27,7 +25,7 @@ fun Route.postRoute(){
                 call.respond(newPost.id)
             }
             post ("del"){
-                //TO DO
+                //TO TO
             }
         }
     }

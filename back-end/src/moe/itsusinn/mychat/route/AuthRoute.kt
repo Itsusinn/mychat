@@ -26,8 +26,7 @@ fun Route.authRoute(){
 
     authenticate {
         get("logout"){
-            val principal = call.principal<UidPrincipal>()
-                    ?: err("No principal decoded")
+            val principal = principal()
             UserService.logout(principal.uid,principal.uuid)
             call.respond("Logout Successfully")
         }

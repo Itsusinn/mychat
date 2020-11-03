@@ -19,7 +19,7 @@ fun Route.accountRoute(){
         userRegisterEvent.apply {
             val user = UserService.addNewUser(account, nick, password)
                     ?: err("User create failed")
-            call.respond("uid: ${user.uid}")
+            call.respond("uid" to user.uid)
         }
     }
     authenticate {
