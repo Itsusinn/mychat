@@ -11,7 +11,7 @@ import moe.itsusinn.mychat.service.UserService
 
 fun Route.accountRoute(){
     /**
-     * 使用JWT的登陆路由
+     * 使用JWT的注冊路由
      */
     post("register") {
         val userRegisterEvent = call.receiveOrNull<UserRegisterEvent>()

@@ -15,7 +15,7 @@ object UserService {
      */
     fun checkPassword(account: String,password:String):User?{
         val user = findUserByAccount(account)
-        return if (user==null||user.password==password) null else user
+        return if (user==null||user.password!=password) null else user
     }
 
     /**

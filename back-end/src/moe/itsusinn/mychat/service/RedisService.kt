@@ -1,5 +1,6 @@
 package moe.itsusinn.mychat.service
 
+import moe.itsusinn.mychat.appConfig
 import moe.itsusinn.mychat.service.RedisService.sessionList
 import org.redisson.Redisson
 import org.redisson.api.RList
@@ -13,7 +14,8 @@ import java.util.concurrent.TimeUnit
  */
 object RedisService {
     private val config = Config().apply {
-        this.useSingleServer().setTimeout(1000000).address = "redis://127.0.0.1:6379"
+        val address = appConfig.property("redis.address").getString()
+        this.useSingleServer().setTimeout(1000000).address = address
     }
     private val redisson: RedissonClient = Redisson.create(config)
 
@@ -62,7 +64,11 @@ object RedisService {
 
     private fun getMeanwhile(uid: Int): MutableList<String> {
         val meanwhile:String = uuidMap[uid.toString()] ?: ""
-        return meanwhile.split(".") as MutableList<String>
+
+        val list = meanwhile.split(".")
+        return mutableListOf<String>().apply {
+            addAll(list)
+        }
     }
     private fun setMeanwhile(uid: Int, uuids:List<String>?){
         uuidMap[uid.toString()] = uuids?.joinToString(".")

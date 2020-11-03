@@ -1,0 +1,16 @@
+### Get all the posts
+GET http://localhost:8081/api/v1/post/getall
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Add a new post
+POST http://localhost:8081/api/v1/post/add
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "HelloWorld"
+}
+
+###
+

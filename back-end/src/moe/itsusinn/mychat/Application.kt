@@ -16,8 +16,7 @@ import moe.itsusinn.mychat.service.RedisService
 
 fun main(args: Array<String>) = EngineMain.main(args)
 
-@kotlin.jvm.JvmOverloads
-fun Application.module(testing: Boolean = false) {
+fun Application.module() {
 
     install(Authentication) {
         //设置jwt
