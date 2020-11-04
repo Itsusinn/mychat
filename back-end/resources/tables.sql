@@ -1,7 +1,7 @@
 CREATE TABLE comments(
-    id int not null primary key auto_increment,
+    comment_id int not null primary key auto_increment,
     subject int not null,
-    uid int not null,
+    author int not null,
     content text(500) not null
 );
 CREATE TABLE users(
@@ -11,7 +11,7 @@ CREATE TABLE users(
     password varchar(40) not null
 );
 CREATE TABLE posts(
-    id int not null primary key auto_increment,
+    post_id int not null primary key auto_increment,
     title varchar(40) not null,
     author int not null
 );

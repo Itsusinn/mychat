@@ -1,10 +1,10 @@
 ### Get all the posts
-GET http://localhost:8081/api/v1/post/getall
+GET http://{{address}}/api/{{version}}/post/getall
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ### Add a new post
-POST http://localhost:8081/api/v1/post/add
+POST http://{{address}}/api/{{version}}/post/add
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -12,5 +12,20 @@ Authorization: Bearer {{token}}
   "title": "HelloWorld"
 }
 
-###
+### Get comments from a post
+POST http://{{address}}/api/{{version}}/post/get-comments
+Content-Type: application/json
+Authorization: Bearer {{token}}
 
+{
+  "post_id": 1
+}
+
+### Add a new comment to a post
+
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "post_id": 1
+}

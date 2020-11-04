@@ -6,7 +6,7 @@ import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import moe.itsusinn.mychat.UserRegisterEvent
-import moe.itsusinn.mychat.err
+import moe.itsusinn.mychat.illegalStage
 import moe.itsusinn.mychat.service.UserService
 
 fun Route.accountRoute(){
@@ -15,10 +15,10 @@ fun Route.accountRoute(){
      */
     post("register") {
         val userRegisterEvent = call.receiveOrNull<UserRegisterEvent>()
-                ?: err("UserRegisterEvent Decode Error")
+                ?: illegalStage("UserRegisterEvent Decode Error")
         userRegisterEvent.apply {
             val user = UserService.addNewUser(account, nick, password)
-                    ?: err("User create failed")
+                    ?: illegalStage("User create failed")
             call.respond(mapOf("uid" to user.uid))
         }
     }

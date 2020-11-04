@@ -5,7 +5,7 @@ import io.ktor.auth.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import moe.itsusinn.mychat.err
+import moe.itsusinn.mychat.illegalStage
 import moe.itsusinn.mychat.route.jwt.*
 import moe.itsusinn.mychat.service.UserService
 
@@ -14,10 +14,10 @@ fun Route.authRoute(){
     post("login") {
         //从请求体中接收凭证
         val credential = call.receiveOrNull<AccountPasswordCredential>()
-                ?: err("No AccountPasswordCredential Decoded")
+                ?: illegalStage("No AccountPasswordCredential Decoded")
         //登录该用户
         val uidPrincipal = UserService.login(credential.account,credential.password)
-                ?: err("UidPrincipal Create Failed")
+                ?: illegalStage("UidPrincipal Create Failed")
         //UUID作为jwt标识符
         val token = JwtConfig.makeToken(uidPrincipal.uid,uidPrincipal.uuid)
         //返回accessToken令牌

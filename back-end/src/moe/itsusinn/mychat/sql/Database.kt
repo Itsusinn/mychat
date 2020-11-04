@@ -26,3 +26,6 @@ val Database.users
     get() = this.sequenceOf(Users)
 val Database.posts
     get() = this.sequenceOf(Posts)
+
+//user unique identifier
+typealias UID = Int
