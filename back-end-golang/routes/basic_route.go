@@ -25,7 +25,6 @@ func (u UserResource) RegisterBasicService(container *restful.Container) {
 	ws.Route(ws.POST("").To(u.result))
 	ws.Route(ws.PUT("/{id}").To(u.result))
 	ws.Route(ws.DELETE("/{id}").To(u.result))
-	ws.Route(ws.GET("/test").To(u.test))
 
 	container.Add(ws)
 }
@@ -41,10 +40,6 @@ func (UserResource) SwaggerDoc() map[string]string {
 //where the main logic locates in
 func (u UserResource) result(request *restful.Request, response *restful.Response) {
 	io.WriteString(response.ResponseWriter, "this would be a normal response")
-}
-
-func (u UserResource) test(request *restful.Request, response *restful.Response) {
-	io.WriteString(response.ResponseWriter, "Hello World")
 }
 
 func returns200(b *restful.RouteBuilder) {

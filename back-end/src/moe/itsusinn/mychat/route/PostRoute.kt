@@ -25,7 +25,7 @@ fun Route.postRoute(){
                     ?: illegalArgument("No Title param")
 
                 val newPost = PostService.addPost(principal.uid,title)
-                val result = createResult(Status.Success,"post-id" to newPost.id)
+                val result = createResult(Status.Success,"post-id" to newPost.post_id)
                 call.respond(result)
             }
             post ("del"){
@@ -41,7 +41,7 @@ fun Route.postRoute(){
                 val getCommentsEvent = call.receiveOrNull<GetCommentsEvent>()
                     ?: illegalStage("Decode GetCommentEvent Failed")
 
-                val postID = getCommentsEvent.id
+                val postID = getCommentsEvent.post_id
                     ?: illegalArgument("No postID param")
                 //get all the comments
                 val comments = PostService.getComments(postID)

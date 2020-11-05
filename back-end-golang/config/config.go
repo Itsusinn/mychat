@@ -41,10 +41,10 @@ type Server struct {
 	Port int `default:"7432"`
 }
 type DataBase struct {
-	Type     string `required:"true"`
-	Address  string `required:"true"`
-	User     string `default:"root"`
-	Password string `required:"true"`
+	Type     string `required:"true" default:"mysql"`
+	Address  string `required:"true" default:"127.0.0.1:3306/mychat"`
+	User     string `required:"true" default:"root"`
+	Password string `required:"true" default:"root"`
 }
 type Redis struct {
 	Address  string `required:"true" default:"127.0.0.1:6379"`
