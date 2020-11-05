@@ -2,17 +2,13 @@ package config
 
 import (
 	"github.com/koding/multiconfig"
+	log "github.com/sirupsen/logrus"
 	"golang.org/x/net/context"
 )
-import "log"
 
 var (
-	Ctx = context.Background()
-	//a series of global config
+	Ctx       = context.Background()
 	AppConfig *Config
-	//serverConfig  = &AppConfig.Server
-	//databaseConfig = &AppConfig.DataBase
-	//redisConfig = &AppConfig.Redis
 )
 
 func init() {
@@ -25,7 +21,7 @@ func init() {
 	// Populated the serverConf struct
 	err := m.Load(conf) // Check for error
 	if err != nil {
-		log.Panic(err)
+		log.Error(err)
 	}
 	m.MustLoad(conf) // Panic's if there is any error
 
@@ -36,6 +32,7 @@ type Config struct {
 	Server   Server
 	DataBase DataBase
 	Redis    Redis
+	JWT      JWT
 }
 type Server struct {
 	Port int `default:"7432"`
@@ -52,4 +49,7 @@ type Redis struct {
 }
 type Log struct {
 	Level string `default:"INFO"`
+}
+type JWT struct {
+	Secret string `default:"VerySafe"`
 }

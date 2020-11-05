@@ -34,9 +34,9 @@ object PostService {
     fun getComments(subject: Int):List<CommentData>{
         return database.from(Comments)
             .select()
-            .where { Comments.id eq subject }
+            .where { Comments.comment_id eq subject }
             .map {row ->
-                val id = row[Comments.id] ?: 0
+                val id = row[Comments.comment_id] ?: 0
                 val author = row[Comments.author] ?: 0
                 val content = row[Comments.content] ?: ""
                 CommentData(id, author, content)
@@ -49,7 +49,7 @@ object PostService {
             .map {row ->
                 val author = row[Posts.author] ?: 0
                 val title = row[Posts.title] ?: ""
-                val id = row[Posts.id] ?: 0
+                val id = row[Posts.post_id] ?: 0
                 PostData(id,author,title)
             }
     }

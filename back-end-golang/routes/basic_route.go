@@ -3,6 +3,7 @@ package routes
 import (
 	"github.com/emicklei/go-restful"
 	"io"
+	"mychat/jwt"
 	"net/http"
 )
 
@@ -12,7 +13,7 @@ func (u UserResource) RegisterBasicService(container *restful.Container) {
 	ws := new(restful.WebService)
 	//设置匹配的schema和路径
 	ws.Path("/user").Consumes(restful.MIME_JSON).Produces(restful.MIME_JSON)
-
+	ws.Filter(jwt.AuthJWT)
 	//设置不同method对应的方法，参数以及参数描述和类型
 	//参数:分为路径上的参数,query层面的参数,Header中的参数
 	ws.Route(ws.GET("/{id}").
@@ -39,6 +40,7 @@ func (UserResource) SwaggerDoc() map[string]string {
 
 //where the main logic locates in
 func (u UserResource) result(request *restful.Request, response *restful.Response) {
+
 	io.WriteString(response.ResponseWriter, "this would be a normal response")
 }
 

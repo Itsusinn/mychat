@@ -4,6 +4,8 @@ go 1.14
 
 require (
 	github.com/BurntSushi/toml v0.3.1 // indirect
+	github.com/auth0/go-jwt-middleware v0.0.0-20201030150249-d783b5c46b39
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/emicklei/go-restful v2.14.3+incompatible
 	github.com/emicklei/go-restful-swagger12 v0.0.0-20201014110547-68ccff494617
 	github.com/fatih/camelcase v1.0.0 // indirect

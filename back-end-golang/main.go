@@ -61,6 +61,7 @@ func main() {
 
 	//indeed start a http server
 	server := &http.Server{Addr: ":" + port, Handler: wsContainer}
+
 	defer server.Close()
 	log.Error(server.ListenAndServe())
 }
