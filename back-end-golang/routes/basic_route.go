@@ -40,7 +40,6 @@ func (UserResource) SwaggerDoc() map[string]string {
 
 //where the main logic locates in
 func (u UserResource) result(request *restful.Request, response *restful.Response) {
-
 	io.WriteString(response.ResponseWriter, "this would be a normal response")
 }
 

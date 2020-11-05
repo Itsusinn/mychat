@@ -29,14 +29,12 @@ func ParsePrincipal(request *restful.Request) (Principal, error) {
 	return principal, nil
 }
 
-func makeToken(UID int64, UUID string) (string, error) {
+func SignToken(UID int64, UUID string) (string, error) {
 	token := NewWithClaims(SigningMethodHS256, MapClaims{
 		"UID":    UID,
 		"UUID":   UUID,
 		"Issuer": "MyChat",
 	})
-
 	tokenString, err := token.SignedString(config.AppConfig.JWT.Secret)
-
 	return tokenString, err
 }

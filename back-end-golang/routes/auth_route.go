@@ -1,6 +1,9 @@
 package routes
 
-import "github.com/emicklei/go-restful"
+import (
+	"github.com/emicklei/go-restful"
+	log "github.com/sirupsen/logrus"
+)
 
 func (u UserResource) RegisterAuthService(container *restful.Container) *restful.WebService {
 	ws := new(restful.WebService)
@@ -10,6 +13,16 @@ func (u UserResource) RegisterAuthService(container *restful.Container) *restful
 		Consumes(restful.MIME_JSON).
 		Produces(restful.MIME_JSON)
 
-	ws.POST("/login")
+	ws.POST("/login").To(u.login)
 	return ws
+}
+func (u UserResource) login(request *restful.Request, response *restful.Response) {
+	loginRequest := LoginRequest{}
+	err := request.ReadEntity(&loginRequest)
+	if err != nil {
+		log.WithField("LoginRequest", loginRequest).Error("LoginRequest Decode Failed")
+		response.WriteErrorString(400, "LoginRequest Decode Failed")
+		return
+	}
+
 }
