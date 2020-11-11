@@ -1,7 +1,6 @@
 package moe.itsusinn.mychat.services
 
-import moe.itsusinn.mychat.models.ApplicationUser
-import moe.itsusinn.mychat.repository.ApplicationUserRepository
+import org.ktorm.database.Database
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -11,13 +10,14 @@ import org.springframework.stereotype.Service
 
 @Service
 class ApplicationUserDetailsService(
-    val applicationUserRepository: ApplicationUserRepository
+    val database: Database,
+    val userService: UserService
 ): UserDetailsService {
 
     override fun loadUserByUsername(username: String): UserDetails {
-        val applicationUser: ApplicationUser = applicationUserRepository.findByUsername(username)
+        val user = userService.findUserByAccount(username)
             ?: throw UsernameNotFoundException(username)
-        return User(applicationUser.username, applicationUser.password, emptyList())
+        return User(user.username, user.password, emptyList())
     }
 
 }
