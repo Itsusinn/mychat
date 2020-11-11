@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
-import moe.itsusinn.mychat.models.ApplicationUser
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
@@ -17,6 +16,7 @@ import javax.servlet.ServletException
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import io.jsonwebtoken.security.Keys;
+import moe.itsusinn.mychat.models.UserData
 import java.security.Key
 
 
@@ -26,7 +26,7 @@ class AuthenticationFilter(
 {
     @Throws(IOException::class)
     override fun attemptAuthentication(req: HttpServletRequest, res: HttpServletResponse): Authentication? {
-        val applicationUser = ObjectMapper().readValue(req.inputStream, ApplicationUser::class.java)
+        val applicationUser = ObjectMapper().readValue(req.inputStream, UserData::class.java)
         return authenticationManager.authenticate(
             UsernamePasswordAuthenticationToken(
                 applicationUser.username,

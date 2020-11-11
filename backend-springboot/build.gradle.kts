@@ -3,7 +3,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version "2.3.5.RELEASE"
     id("io.spring.dependency-management") version "1.0.10.RELEASE"
-    id("org.jetbrains.kotlin.plugin.jpa") version "1.4.10"
     kotlin("jvm") version "1.4.10"
     kotlin("plugin.spring") version "1.4.10"
 }
@@ -22,9 +21,13 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-jdbc")
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
+    implementation("org.ktorm:ktorm-core:3.2.0")
+    implementation("org.ktorm:ktorm-jackson:3.2.0")
+    implementation("org.ktorm:ktorm-support-mysql:3.2.0")
 
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
 
@@ -33,9 +36,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 
     implementation("io.jsonwebtoken:jjwt-api:0.11.2")
-
     runtimeOnly("mysql:mysql-connector-java")
-
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.2")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.2")
 
