@@ -2,15 +2,12 @@ package moe.itsusinn.mychat.services
 
 import moe.itsusinn.mychat.models.CommentData
 import moe.itsusinn.mychat.models.PostData
-import moe.itsusinn.mychat.repository.*
+import moe.itsusinn.mychat.repository.entity.*
 import org.ktorm.database.Database
 import org.ktorm.dsl.*
 import org.ktorm.entity.add
 import org.springframework.stereotype.Service
 
-/**
- * separate the sql operation and main logic
- */
 @Service
 class PostService(
     val database: Database

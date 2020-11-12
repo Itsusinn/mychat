@@ -1,0 +1,24 @@
+### Register
+POST http://{{address}}/user/signup
+Content-Type: application/json
+
+{
+  "username": "abc",
+  "password": "123",
+  "nick": "nick"
+}
+
+### Login
+POST http://{{address}}/login
+Content-Type: application/json
+
+{
+  "username": "abc",
+  "password": "123"
+}
+> {% client.global.set("token", response.body.token); %}
+
+### Logout
+POST http://{{address}}/login
+Content-Type: application/json
+

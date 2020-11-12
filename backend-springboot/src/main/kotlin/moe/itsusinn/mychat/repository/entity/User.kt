@@ -1,4 +1,4 @@
-package moe.itsusinn.mychat.repository
+package moe.itsusinn.mychat.repository.entity
 
 import org.ktorm.database.Database
 import org.ktorm.entity.Entity
@@ -15,10 +15,10 @@ interface User : Entity<User> {
     var password:String
 }
 
-object Users: Table<User>("users"){
+object Users : Table<User>("user") {
     val uid = long("uid").primaryKey().bindTo { it.uid }
     val username = varchar("username").bindTo { it.username }
-    val nick = varchar("nick").bindTo { it.nick}
+    val nick = varchar("nick").bindTo { it.nick }
     val password = varchar("password").bindTo { it.password }
 }
 

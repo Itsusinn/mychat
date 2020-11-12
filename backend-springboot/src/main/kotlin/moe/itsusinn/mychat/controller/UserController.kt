@@ -1,6 +1,6 @@
 package moe.itsusinn.mychat.controller
 
-import moe.itsusinn.mychat.models.UserData
+import moe.itsusinn.mychat.models.NewUser
 import moe.itsusinn.mychat.services.UserService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.web.bind.annotation.PostMapping
@@ -21,8 +21,10 @@ class UserController(
     }
 
     @PostMapping("signup")
-    fun signUp(@RequestBody userData: UserData){
-        userData.password = bCryptPasswordEncoder.encode(userData.password)
-        userService.addNewUser(userData.username,userData.nick,userData.password)
+    fun signUp(@RequestBody newUser: NewUser) {
+        newUser.apply {
+            password = bCryptPasswordEncoder.encode(password)
+            userService.addNewUser(username, nick, password)
+        }
     }
 }

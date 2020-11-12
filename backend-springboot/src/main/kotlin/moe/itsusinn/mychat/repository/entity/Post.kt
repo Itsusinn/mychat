@@ -1,4 +1,4 @@
-package moe.itsusinn.mychat.repository
+package moe.itsusinn.mychat.repository.entity
 
 import org.ktorm.database.Database
 import org.ktorm.entity.Entity
@@ -14,7 +14,7 @@ interface Post : Entity<Post> {
     var title:String
 }
 
-object Posts: Table<Post>("posts"){
+object Posts : Table<Post>("post") {
     val postID = long("id").primaryKey().bindTo { it.postID }
     val authorID = long("author_id").bindTo { it.authorID }
     val title = varchar("title").bindTo { it.title }

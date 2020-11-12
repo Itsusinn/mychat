@@ -1,12 +1,11 @@
-package moe.itsusinn.mychat.repository
+package moe.itsusinn.mychat.repository.entity
 
 import org.ktorm.database.Database
-import org.ktorm.schema.Table
-import org.ktorm.schema.int
-import org.ktorm.schema.text
 import org.ktorm.entity.Entity
 import org.ktorm.entity.sequenceOf
+import org.ktorm.schema.Table
 import org.ktorm.schema.long
+import org.ktorm.schema.text
 
 interface Comment : Entity<Comment> {
     companion object : Entity.Factory<Comment>()
@@ -16,7 +15,7 @@ interface Comment : Entity<Comment> {
     var content: String
 }
 
-object Comments:Table<Comment>("comments"){
+object Comments : Table<Comment>("comment") {
     val commentID = long("comment_id").primaryKey().bindTo { it.commentID }
     val authorID = long("author_id").bindTo { it.authorID }
     val subjectID = long("subject_id").bindTo { it.subjectID }
