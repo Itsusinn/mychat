@@ -29,7 +29,7 @@ class UserService(
             this.nick = nick
             this.password = password
         }
-        userRepository.add(newUser)
+        userRepository.addUser(newUser)
         return newUser
     }
 

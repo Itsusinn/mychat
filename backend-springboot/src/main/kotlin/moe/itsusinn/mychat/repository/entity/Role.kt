@@ -8,7 +8,7 @@ import org.ktorm.schema.long
 import org.ktorm.schema.varchar
 
 interface Role : Entity<Role> {
-    companion object : Entity.Factory<User>()
+    companion object : Entity.Factory<Role>()
 
     var roleID: Long
     var name: String

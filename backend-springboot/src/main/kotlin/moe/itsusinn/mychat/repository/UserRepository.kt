@@ -6,15 +6,13 @@ import org.ktorm.database.Database
 import org.ktorm.dsl.eq
 import org.ktorm.entity.add
 import org.ktorm.entity.find
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
 
 @Repository
-class UserRepository {
-    @Autowired
-    lateinit var database: Database
-
-    fun add(newUser: User) {
+class UserRepository(
+    val database: Database
+) {
+    fun addUser(newUser: User) {
         database.users.add(newUser)
     }
 
