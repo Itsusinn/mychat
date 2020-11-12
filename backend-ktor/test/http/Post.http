@@ -1,10 +1,10 @@
 ### Get all the posts
-GET http://{{address}}/api/{{version}}/post/getall
+GET http://{{address}}/post/getall
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ### Add a new post
-POST http://{{address}}/api/{{version}}/post/add
+POST http://{{address}}/post/add
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -13,7 +13,7 @@ Authorization: Bearer {{token}}
 }
 
 ### Get comments from a post
-POST http://{{address}}/api/{{version}}/post/get-comments
+POST http://{{address}}/post/get-comments
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
