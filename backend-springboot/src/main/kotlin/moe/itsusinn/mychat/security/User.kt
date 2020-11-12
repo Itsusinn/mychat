@@ -3,6 +3,8 @@ package moe.itsusinn.mychat.security
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
+typealias SecurityUser = User
+
 class User : UserDetails {
     /**
      * Returns the authorities granted to the user. Cannot return `null`.
