@@ -1,7 +1,7 @@
 package moe.itsusinn.mychat.configuration
 
-import moe.itsusinn.mychat.security.authentication.AuthenticationFilter
-import moe.itsusinn.mychat.services.MyUserDetailsService
+import moe.itsusinn.mychat.security.atri.AtriAuthenticationProvider
+import moe.itsusinn.mychat.services.MyValidator
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.http.HttpMethod
@@ -22,16 +22,14 @@ const val SignUpUrl = "/user/signup"
 class SecurityConfiguration : WebSecurityConfigurerAdapter() {
 
     @Autowired
-    lateinit var userDetailsService: MyUserDetailsService
+    lateinit var userDetailsService: MyValidator
 
     @Autowired
     lateinit var bCryptPasswordEncoder: BCryptPasswordEncoder
 
 
     override fun configure(auth: AuthenticationManagerBuilder) {
-        auth
-            .userDetailsService(userDetailsService)
-            .passwordEncoder(bCryptPasswordEncoder)
+
     }
 
     @Bean
@@ -44,11 +42,11 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter() {
     //configure all the requests' rule
     override fun configure(httpSecurity: HttpSecurity) {
         httpSecurity.cors().and().csrf().disable()
+            .authenticationProvider(AtriAuthenticationProvider())
             .authorizeRequests()
             .antMatchers(HttpMethod.POST, SignUpUrl).permitAll()
             .anyRequest().authenticated()
             .and()
-            .addFilter(AuthenticationFilter(authenticationManager()))
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
     }
