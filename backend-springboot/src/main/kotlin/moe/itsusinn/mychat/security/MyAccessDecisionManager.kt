@@ -14,6 +14,10 @@ import org.springframework.stereotype.Component
  */
 @Component
 class MyAccessDecisionManager : AccessDecisionManager {
+    companion object {
+        private val logger: Logger = LoggerFactory.getLogger(MyAccessDecisionManager::class.java)
+    }
+
     /**
      * 通过传递的参数来决定用户是否有访问对应受保护对象的权限
      *
@@ -27,21 +31,20 @@ class MyAccessDecisionManager : AccessDecisionManager {
         `object`: Any?,
         configAttributes: Collection<ConfigAttribute>?
     ) {
-        if (configAttributes.isNullOrEmpty()) {
-            return
-        } else {
-            var needRole: String
-            val iter = configAttributes.iterator()
-            while (iter.hasNext()) {
-                needRole = iter.next().attribute
-                for (ga in authentication.authorities) {
-                    if (needRole.trim { it <= ' ' } == ga.authority.trim { it <= ' ' }) {
-                        return
-                    }
+        if (configAttributes.isNullOrEmpty()) return
+
+        var needRole: String
+        val iter = configAttributes.iterator()
+        while (iter.hasNext()) {
+            needRole = iter.next().attribute
+            for (ga in authentication.authorities) {
+                if (needRole.trim { it <= ' ' } == ga.authority.trim { it <= ' ' }) {
+                    return
                 }
             }
-            throw SpringSecurityAccessDeniedException("当前访问没有权限")
         }
+        throw SpringSecurityAccessDeniedException("当前访问没有权限")
+
     }
 
     /**
@@ -58,7 +61,5 @@ class MyAccessDecisionManager : AccessDecisionManager {
         return true
     }
 
-    companion object {
-        private val logger: Logger = LoggerFactory.getLogger(MyAccessDecisionManager::class.java)
-    }
+
 }

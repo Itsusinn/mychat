@@ -1,7 +1,7 @@
 package moe.itsusinn.mychat.repository
 
-import moe.itsusinn.mychat.repository.entity.Roles
-import moe.itsusinn.mychat.repository.entity.UserRoles
+import moe.itsusinn.mychat.repository.entity.RoleTable
+import moe.itsusinn.mychat.repository.entity.UserRoleTable
 import moe.itsusinn.mychat.security.permission.Role
 import moe.itsusinn.mychat.security.permission.SecurityRole
 import org.ktorm.database.Database
@@ -16,18 +16,18 @@ class UserRoleRepository(
     fun getRolesByUid(uid: Long): List<Role> {
         val roleIDs = mutableListOf<Long>()
         val roles = mutableListOf<SecurityRole>()
-        database.from(UserRoles)
+        database.from(UserRoleTable)
             .select()
-            .where { UserRoles.uid eq uid }
+            .where { UserRoleTable.uid eq uid }
             .forEach {
-                val roleID = it[UserRoles.roleID] ?: -1L
+                val roleID = it[UserRoleTable.roleID] ?: -1L
                 roleIDs.add(roleID)
             }
-        database.from(Roles)
+        database.from(RoleTable)
             .select()
             .forEach { row ->
-                val roleID = row[Roles.roleID] ?: -1L
-                val name = row[Roles.name] ?: ""
+                val roleID = row[RoleTable.roleID] ?: -1L
+                val name = row[RoleTable.name] ?: ""
                 if (roleIDs.contains(roleID)) {
                     roles.add(Role(roleID, name))
                 }

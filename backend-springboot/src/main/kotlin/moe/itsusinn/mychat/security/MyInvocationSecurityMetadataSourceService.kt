@@ -12,6 +12,9 @@ import org.springframework.stereotype.Component
 import java.util.*
 
 
+/**
+ * 用来储存请求与权限的对应关系
+ */
 @Component
 class MyInvocationSecurityMetadataSourceService : FilterInvocationSecurityMetadataSource {
     @Autowired
@@ -45,7 +48,7 @@ class MyInvocationSecurityMetadataSourceService : FilterInvocationSecurityMetada
     }
 
     /**
-     * 初始化 所有资源 对应的角色
+     * 初始化 所有资源 对应的角色s
      */
     fun loadResourceDefine() {
         //权限资源 和 角色对应的表  也就是 角色权限 中间表
@@ -56,9 +59,7 @@ class MyInvocationSecurityMetadataSourceService : FilterInvocationSecurityMetada
             val url: String = rolePermission.permission.url
             val roleName: String = rolePermission.role.name
             val role: ConfigAttribute = SecurityConfig(roleName)
-            if (map.containsKey(url)) {
-                map[url]!!.add(role)
-            } else {
+            map[url]?.add(role) ?: run {
                 val list: MutableList<ConfigAttribute> = ArrayList()
                 list.add(role)
                 map[url] = list
@@ -66,11 +67,6 @@ class MyInvocationSecurityMetadataSourceService : FilterInvocationSecurityMetada
         }
     }
 
-    override fun getAllConfigAttributes(): Collection<ConfigAttribute>? {
-        return null
-    }
-
-    override fun supports(aClass: Class<*>?): Boolean {
-        return true
-    }
+    override fun getAllConfigAttributes(): Collection<ConfigAttribute>? = null
+    override fun supports(aClass: Class<*>?): Boolean = true
 }

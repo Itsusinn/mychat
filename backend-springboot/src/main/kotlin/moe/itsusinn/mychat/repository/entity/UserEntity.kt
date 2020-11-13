@@ -7,19 +7,20 @@ import org.ktorm.schema.Table
 import org.ktorm.schema.long
 import org.ktorm.schema.varchar
 
-interface User : Entity<User> {
-    companion object : Entity.Factory<User>()
+interface UserEntity : Entity<UserEntity> {
+    companion object : Entity.Factory<UserEntity>()
+
     var uid: Long
-    var username:String
-    var nick:String
-    var password:String
+    var username: String
+    var nick: String
+    var password: String
 }
 
-object Users : Table<User>("user") {
+object UserTable : Table<UserEntity>("user") {
     val uid = long("uid").primaryKey().bindTo { it.uid }
     val username = varchar("username").bindTo { it.username }
     val nick = varchar("nick").bindTo { it.nick }
     val password = varchar("password").bindTo { it.password }
 }
 
-val Database.users get() = this.sequenceOf(Users)
+val Database.users get() = this.sequenceOf(UserTable)

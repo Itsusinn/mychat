@@ -7,19 +7,20 @@ import org.ktorm.schema.Table
 import org.ktorm.schema.long
 import org.ktorm.schema.text
 
-interface Comment : Entity<Comment> {
-    companion object : Entity.Factory<Comment>()
+interface CommentEntity : Entity<CommentEntity> {
+    companion object : Entity.Factory<CommentEntity>()
+
     var commentID: Long
     var authorID: Long
     var postID: Long
     var content: String
 }
 
-object Comments : Table<Comment>("comment") {
+object CommentTable : Table<CommentEntity>("comment") {
     val commentID = long("comment_id").primaryKey().bindTo { it.commentID }
     val authorID = long("author_id").bindTo { it.authorID }
     val postID = long("post_id").bindTo { it.postID }
     val content = text("content").bindTo { it.content }
 }
 
-val Database.comments get() = this.sequenceOf(Comments)
+val Database.comments get() = this.sequenceOf(CommentTable)

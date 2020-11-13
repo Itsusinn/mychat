@@ -1,6 +1,6 @@
 package moe.itsusinn.mychat.repository
 
-import moe.itsusinn.mychat.repository.entity.User
+import moe.itsusinn.mychat.repository.entity.UserEntity
 import moe.itsusinn.mychat.repository.entity.users
 import org.ktorm.database.Database
 import org.ktorm.dsl.eq
@@ -12,21 +12,21 @@ import org.springframework.stereotype.Repository
 class UserRepository(
     val database: Database
 ) {
-    fun addUser(newUser: User) {
-        database.users.add(newUser)
+    fun addUser(newUserEntity: UserEntity) {
+        database.users.add(newUserEntity)
     }
 
     /**
      * 查询用户,存在则返回实例
      * 不存在则返回空
      */
-    fun findUserByAccount(account: String): User? = database.users.find { it.username eq account }
+    fun findUserByAccount(account: String): UserEntity? = database.users.find { it.username eq account }
 
     /**
      * 查询用户,存在则返回实例
      * 不存在则返回空
      */
-    fun findUserByUid(uid: Long): User? = database.users.find { it.uid eq uid }
+    fun findUserByUid(uid: Long): UserEntity? = database.users.find { it.uid eq uid }
 
 
 }

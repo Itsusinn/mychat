@@ -6,16 +6,16 @@ import org.ktorm.entity.sequenceOf
 import org.ktorm.schema.Table
 import org.ktorm.schema.long
 
-interface UserRole : Entity<UserRole> {
-    companion object : Entity.Factory<UserRole>()
+interface UserRoleEntity : Entity<UserRoleEntity> {
+    companion object : Entity.Factory<UserRoleEntity>()
 
     var uid: Long
     var roleID: Long
 }
 
-object UserRoles : Table<UserRole>("user_role") {
+object UserRoleTable : Table<UserRoleEntity>("user_role") {
     val uid = long("uid").primaryKey().bindTo { it.uid }
     val roleID = long("role_id").primaryKey().bindTo { it.roleID }
 }
 
-val Database.userRoles get() = this.sequenceOf(UserRoles)
+val Database.userRoles get() = this.sequenceOf(UserRoleTable)

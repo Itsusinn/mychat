@@ -7,17 +7,18 @@ import org.ktorm.schema.Table
 import org.ktorm.schema.long
 import org.ktorm.schema.varchar
 
-interface Post : Entity<Post> {
-    companion object : Entity.Factory<Post>()
+interface PostEntity : Entity<PostEntity> {
+    companion object : Entity.Factory<PostEntity>()
+
     var postID: Long
     var authorID: Long
-    var title:String
+    var title: String
 }
 
-object Posts : Table<Post>("post") {
+object PostTable : Table<PostEntity>("post") {
     val postID = long("post_id").primaryKey().bindTo { it.postID }
     val authorID = long("author_id").bindTo { it.authorID }
     val title = varchar("title").bindTo { it.title }
 }
 
-val Database.posts get() = this.sequenceOf(Posts)
+val Database.posts get() = this.sequenceOf(PostTable)

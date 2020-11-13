@@ -7,16 +7,16 @@ import org.ktorm.schema.Table
 import org.ktorm.schema.long
 import org.ktorm.schema.varchar
 
-interface Role : Entity<Role> {
-    companion object : Entity.Factory<Role>()
+interface RoleEntity : Entity<RoleEntity> {
+    companion object : Entity.Factory<RoleEntity>()
 
     var roleID: Long
     var name: String
 }
 
-object Roles : Table<Role>("role") {
+object RoleTable : Table<RoleEntity>("role") {
     val roleID = long("uid").primaryKey().bindTo { it.roleID }
     val name = varchar("password").bindTo { it.name }
 }
 
-val Database.roles get() = this.sequenceOf(Roles)
+val Database.roles get() = this.sequenceOf(RoleTable)

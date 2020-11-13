@@ -7,8 +7,8 @@ import org.ktorm.schema.Table
 import org.ktorm.schema.long
 import org.ktorm.schema.varchar
 
-interface Permission : Entity<Permission> {
-    companion object : Entity.Factory<Post>()
+interface PermissionEntity : Entity<PermissionEntity> {
+    companion object : Entity.Factory<PostEntity>()
 
     var permissionID: Long
     var url: String
@@ -16,11 +16,11 @@ interface Permission : Entity<Permission> {
     var description: String
 }
 
-object Permissions : Table<Permission>("permission") {
+object PermissionTable : Table<PermissionEntity>("permission") {
     var permissionID = long("permission_id").primaryKey().bindTo { it.permissionID }
     var url = varchar("url").bindTo { it.url }
     var name = varchar("name").bindTo { it.name }
     var description = varchar("description").bindTo { it.description }
 }
 
-val Database.permissions get() = this.sequenceOf(Permissions)
+val Database.permissions get() = this.sequenceOf(PermissionTable)
