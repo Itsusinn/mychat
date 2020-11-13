@@ -38,7 +38,7 @@ CREATE TABLE `permission`
 CREATE TABLE comment
 (
     comment_id bigint(11) not null primary key auto_increment,
-    subject_id bigint(11) not null,
+    post_id    bigint(11) not null,
     author_id  int(4)     not null,
     content    text(500)  not null
 );

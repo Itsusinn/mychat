@@ -13,7 +13,7 @@ data class NewUser(
     var password: String
 )
 
-data class UserLogin(
+data class UserLoginRequest(
     val username: String,
     var password: String
 )

@@ -10,7 +10,7 @@ import io.jsonwebtoken.security.Keys
 import java.util.*
 
 
-val objectMapper: ObjectMapper = ObjectMapper().registerModule(KotlinModule())
+val objectKtMapper: ObjectMapper = ObjectMapper().registerModule(KotlinModule())
 
 const val ExpirationTime = 1000_60_30L
 
@@ -21,13 +21,22 @@ val TokenParser: JwtParser = Jwts
     .setSigningKey(Keys.hmacShaKeyFor(Secret))
     .build()
 
-fun generateToken(claims: Map<String, Any>): String {
+fun generateToken(claimsMap: Map<String, Any>): String {
     return Jwts.builder()
-        .setClaims(claims)
+        .setClaims(claimsMap)
         .setExpiration(generateExpirationDate(ExpirationTime))
         .signWith(Keys.hmacShaKeyFor(Secret), SignatureAlgorithm.HS512) //采用什么算法是可以自己选择的，不一定非要采用HS512
         .compact()
 }
+
+fun generateToken(vararg claimPairs: Pair<String, Any>): String {
+    val claimsMap = HashMap<String, Any>()
+    claimPairs.forEach {
+        claimsMap[it.first] = it.second
+    }
+    return generateToken(claimsMap)
+}
+
 
 fun getClaimsFromToken(token: String): Claims? =
     try {

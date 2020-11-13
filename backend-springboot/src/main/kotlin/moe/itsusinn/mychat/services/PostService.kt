@@ -15,30 +15,32 @@ class PostService(
     /**
      * Add a new Post
      */
-    fun addPost(author:Long,title:String): Post {
-        val newPost = Post{
+    fun addPost(author: Long, title: String): Post {
+        val newPost = Post {
             this.authorID = authorID
             this.title = title
         }
         database.posts.add(newPost)
         return newPost
     }
+
     //add a new comment
-    fun addComment(authorID: Long,content:String,subjectID:Long): Comment {
-        val newComment = Comment{
+    fun addComment(authorID: Long, content: String, postID: Long): Comment {
+        val newComment = Comment {
             this.authorID = authorID
             this.content = content
-            this.subjectID = subjectID
+            this.postID = postID
         }
         database.comments.add(newComment)
         return newComment
     }
+
     //get all comments
-    fun getComments(subjectID: Long):List<CommentData>{
+    fun getComments(postID: Long): List<CommentData> {
         return database.from(Comments)
             .select()
-            .where { Comments.commentID eq subjectID }
-            .map {row ->
+            .where { Comments.postID eq postID }
+            .map { row ->
                 val id = row[Comments.commentID] ?: 0
                 val author = row[Comments.authorID] ?: 0
                 val content = row[Comments.content] ?: ""

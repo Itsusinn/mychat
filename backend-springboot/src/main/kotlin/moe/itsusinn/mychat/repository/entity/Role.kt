@@ -14,7 +14,7 @@ interface Role : Entity<Role> {
     var name: String
 }
 
-object Roles : Table<Role>("user") {
+object Roles : Table<Role>("role") {
     val roleID = long("uid").primaryKey().bindTo { it.roleID }
     val name = varchar("password").bindTo { it.name }
 }

@@ -11,14 +11,14 @@ interface Comment : Entity<Comment> {
     companion object : Entity.Factory<Comment>()
     var commentID: Long
     var authorID: Long
-    var subjectID: Long
+    var postID: Long
     var content: String
 }
 
 object Comments : Table<Comment>("comment") {
     val commentID = long("comment_id").primaryKey().bindTo { it.commentID }
     val authorID = long("author_id").bindTo { it.authorID }
-    val subjectID = long("subject_id").bindTo { it.subjectID }
+    val postID = long("post_id").bindTo { it.postID }
     val content = text("content").bindTo { it.content }
 }
 

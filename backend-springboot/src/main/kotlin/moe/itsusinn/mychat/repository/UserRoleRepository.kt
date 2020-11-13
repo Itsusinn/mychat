@@ -2,17 +2,18 @@ package moe.itsusinn.mychat.repository
 
 import moe.itsusinn.mychat.repository.entity.Roles
 import moe.itsusinn.mychat.repository.entity.UserRoles
-import moe.itsusinn.mychat.security.SecurityRole
+import moe.itsusinn.mychat.security.permission.Role
+import moe.itsusinn.mychat.security.permission.SecurityRole
 import org.ktorm.database.Database
 import org.ktorm.dsl.*
 import org.springframework.stereotype.Repository
 
 
 @Repository
-class RoleRepository(
+class UserRoleRepository(
     val database: Database
 ) {
-    fun getRolesByUid(uid: Long): List<SecurityRole> {
+    fun getRolesByUid(uid: Long): List<Role> {
         val roleIDs = mutableListOf<Long>()
         val roles = mutableListOf<SecurityRole>()
         database.from(UserRoles)
@@ -28,9 +29,7 @@ class RoleRepository(
                 val roleID = row[Roles.roleID] ?: -1L
                 val name = row[Roles.name] ?: ""
                 if (roleIDs.contains(roleID)) {
-                    roles.add(
-                        SecurityRole(roleID, name)
-                    )
+                    roles.add(Role(roleID, name))
                 }
             }
         return roles

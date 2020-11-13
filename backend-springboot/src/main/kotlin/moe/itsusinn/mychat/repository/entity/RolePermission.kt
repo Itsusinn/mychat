@@ -18,4 +18,4 @@ object RolePermissions : Table<RolePermission>("role_permission") {
     val permissionID = long("permission_id").primaryKey().bindTo { it.permissionID }
 }
 
-val Database.rolePermission get() = this.sequenceOf(UserRoles)
+val Database.rolePermission get() = this.sequenceOf(RolePermissions)

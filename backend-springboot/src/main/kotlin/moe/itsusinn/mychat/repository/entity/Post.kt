@@ -15,7 +15,7 @@ interface Post : Entity<Post> {
 }
 
 object Posts : Table<Post>("post") {
-    val postID = long("id").primaryKey().bindTo { it.postID }
+    val postID = long("post_id").primaryKey().bindTo { it.postID }
     val authorID = long("author_id").bindTo { it.authorID }
     val title = varchar("title").bindTo { it.title }
 }
