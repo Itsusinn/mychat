@@ -1,0 +1,31 @@
+### Get all the posts
+GET http://{{address}}/post/getall
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Add a new post
+POST http://{{address}}/post/add
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "HelloWorld"
+}
+
+### Get comments from a post
+POST http://{{address}}/post/get-comments
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "post_id": 1
+}
+
+### Add a new comment to a post
+
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "post_id": 1
+}
