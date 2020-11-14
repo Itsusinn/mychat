@@ -24,12 +24,12 @@ class AtriAuthenticationInjectFilter(authManager: AuthenticationManager) : Basic
         chain: FilterChain
     ) {
         //read token from `Authentication` header
-        val rawToken = request.getHeader("Authentication") ?: return
+        val rawToken = request.getHeader("Authorization") ?: defaultHeader
         val tokenData = parseToken(rawToken)
         val roles = tokenData.roles
         val authorities: MutableList<GrantedAuthority> = ArrayList()
         //parse authorities instance for raw string
-        roles.forEach { role -> authorities.add(SimpleGrantedAuthority("ROLE_$role")) }
+        roles.forEach { role -> authorities.add(SimpleGrantedAuthority(role)) }
         //create Authorization instance
         val authentication = AtriAuthenticationToken(tokenData.uid, tokenData.uuid, authorities)
         //inject Authorization instance
@@ -37,5 +37,7 @@ class AtriAuthenticationInjectFilter(authManager: AuthenticationManager) : Basic
         //continue to next filter
         chain.doFilter(request, response)
     }
-
 }
+
+const val defaultHeader =
+    "eyJ1aWQiOjAsInV1aWQiOiJVVUlEIiwiY3JlYXRlZCI6MTYwNTM3MjUxMjQxNywicm9sZXMiOlsiR1VFU1QiXX0="

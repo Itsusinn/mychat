@@ -19,14 +19,12 @@ repositories {
 dependencies {
     implementation("com.alibaba:druid:1.2.3")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-
     implementation("org.springframework.boot:spring-boot-starter-data-rest")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
 
-
+    implementation("com.spring4all:swagger-spring-boot-starter:1.9.1.RELEASE")
 
     implementation("org.ktorm:ktorm-core:3.2.0")
     implementation("org.ktorm:ktorm-jackson:3.2.0")

@@ -16,12 +16,12 @@ import org.springframework.stereotype.Repository
 class UserRoleRepository(
     val database: Database
 ) {
-    fun getRolesByUid(uid: Long): List<Role> {
+    fun getRolesByUserID(userID: Long): List<Role> {
         val roleIDs = mutableListOf<Long>()
         val roles = mutableListOf<SecurityRole>()
         database.from(UserRoleTable)
             .select()
-            .where { UserRoleTable.uid eq uid }
+            .where { UserRoleTable.userID eq userID }
             .forEach {
                 val roleID = it[UserRoleTable.roleID] ?: return@forEach
                 roleIDs.add(roleID)
@@ -38,10 +38,10 @@ class UserRoleRepository(
         return roles
     }
 
-    fun saveAsDefault(uid: Long) {
+    fun saveAsDefault(userID: Long) {
         val newUserRole =
             UserRoleEntity {
-                this.uid = uid
+                this.userID = userID
                 this.roleID = 1
             }
         database.userRoles.add(newUserRole)

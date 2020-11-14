@@ -24,7 +24,7 @@ class MyInvocationSecurityMetadataSourceService : FilterInvocationSecurityMetada
         /**
          * 每一个资源所需要的角色 决策器会用到
          */
-        private lateinit var mapper: HashMap<String, MutableCollection<ConfigAttribute>>
+        private val mapper = HashMap<String, MutableCollection<ConfigAttribute>>()
     }
 
     /**
@@ -32,8 +32,6 @@ class MyInvocationSecurityMetadataSourceService : FilterInvocationSecurityMetada
      */
     @Throws(IllegalArgumentException::class)
     override fun getAttributes(o: Any): Collection<ConfigAttribute>? {
-        if (mapper.isNullOrEmpty()) loadResourceDefine()
-
         //object 中包含用户请求的request 信息
         val request = (o as FilterInvocation).httpRequest
         mapper.keys.forEach { url ->
@@ -61,6 +59,10 @@ class MyInvocationSecurityMetadataSourceService : FilterInvocationSecurityMetada
         }
     }
 
-    override fun getAllConfigAttributes(): Collection<ConfigAttribute>? = null
+    override fun getAllConfigAttributes(): Collection<ConfigAttribute>? {
+        loadResourceDefine()
+        return null
+    }
+
     override fun supports(aClass: Class<*>?): Boolean = true
 }

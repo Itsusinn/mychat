@@ -27,17 +27,16 @@ class UserService {
      * 添加一个新用户
      * 有重复username则返回null
      */
-    fun registerUser(username: String, nick: String, password: String): UserEntity? {
+    fun registerUser(username: String, password: String): UserEntity? {
         val repeat = userRepository.findUserByUsername(username)
         //如果有重复的则返回null
         if (repeat != null) return null
         val newUser = UserEntity {
             this.username = username
-            this.nick = nick
             this.password = password
         }
         userRepository.save(newUser)
-        userRoleRepository.saveAsDefault(newUser.uid)
+        userRoleRepository.saveAsDefault(newUser.userID)
         return newUser
     }
 

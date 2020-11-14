@@ -9,15 +9,14 @@ import org.ktorm.schema.varchar
 
 interface PostEntity : Entity<PostEntity> {
     companion object : Entity.Factory<PostEntity>()
-
     var postID: Long
-    var authorID: Long
+    var userID: Long
     var title: String
 }
 
 object PostTable : Table<PostEntity>("post") {
     val postID = long("post_id").primaryKey().bindTo { it.postID }
-    val authorID = long("author_id").bindTo { it.authorID }
+    val userID = long("user_id").bindTo { it.userID }
     val title = varchar("title").bindTo { it.title }
 }
 

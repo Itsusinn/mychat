@@ -9,12 +9,12 @@ import org.ktorm.schema.long
 interface UserRoleEntity : Entity<UserRoleEntity> {
     companion object : Entity.Factory<UserRoleEntity>()
 
-    var uid: Long
+    var userID: Long
     var roleID: Long
 }
 
 object UserRoleTable : Table<UserRoleEntity>("user_role") {
-    val uid = long("uid").primaryKey().bindTo { it.uid }
+    val userID = long("user_id").primaryKey().bindTo { it.userID }
     val roleID = long("role_id").primaryKey().bindTo { it.roleID }
 }
 

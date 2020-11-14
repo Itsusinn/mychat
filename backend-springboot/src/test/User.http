@@ -1,15 +1,19 @@
 ### Register
-POST http://{{address}}/user/signup
+POST http://{{address}}/user/test
+Content-Type: application/json
+
+
+### Register
+POST http://{{address}}/user/register
 Content-Type: application/json
 
 {
   "username": "abc",
-  "password": "123",
-  "nick": "nick"
+  "password": "123"
 }
 
 ### Login
-POST http://{{address}}/login
+POST http://{{address}}/user/login
 Content-Type: application/json
 
 {
@@ -19,6 +23,6 @@ Content-Type: application/json
 > {% client.global.set("token", response.body.token); %}
 
 ### Logout
-POST http://{{address}}/login
+POST http://{{address}}/logout
 Content-Type: application/json
 

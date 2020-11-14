@@ -8,7 +8,6 @@ class MyValidator : AtriValidator {
     /**
      * 检查此Token是否在缓存中过期
      */
-
     override fun verifyToken(rawToken: String): Boolean {
         //TODO 检查在Redis中是否过期
         return true

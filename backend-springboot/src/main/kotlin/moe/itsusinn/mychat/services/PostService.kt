@@ -17,7 +17,7 @@ class PostService(
      */
     fun addPost(author: Long, title: String): PostEntity {
         val newPost = PostEntity {
-            this.authorID = authorID
+            this.userID = userID
             this.title = title
         }
         database.posts.add(newPost)
@@ -27,7 +27,7 @@ class PostService(
     //add a new comment
     fun addComment(authorID: Long, content: String, postID: Long): CommentEntity {
         val newComment = CommentEntity {
-            this.authorID = authorID
+            this.userID = authorID
             this.content = content
             this.postID = postID
         }
@@ -44,7 +44,7 @@ class PostService(
             .forEach { row ->
                 val commentID = row[CommentTable.commentID]
                     ?: return@forEach
-                val authorID = row[CommentTable.authorID]
+                val authorID = row[CommentTable.userID]
                     ?: return@forEach
                 val content = row[CommentTable.content]
                     ?: return@forEach
@@ -57,7 +57,7 @@ class PostService(
         return database.from(PostTable)
             .select()
             .map { row ->
-                val author = row[PostTable.authorID] ?: 0
+                val author = row[PostTable.userID] ?: 0
                 val title = row[PostTable.title] ?: ""
                 val id = row[PostTable.postID] ?: 0
                 PostData(id, author, title)

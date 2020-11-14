@@ -4,6 +4,7 @@ import moe.itsusinn.mychat.security.atri.AtriAuthenticationInjectFilter
 import moe.itsusinn.mychat.security.atri.AtriAuthenticationProvider
 import moe.itsusinn.mychat.services.MyValidator
 import org.springframework.context.annotation.Bean
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
@@ -28,6 +29,7 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter() {
             .authenticationProvider(AtriAuthenticationProvider(MyValidator()))
             .addFilter(AtriAuthenticationInjectFilter(authenticationManager()))
             .authorizeRequests()
+            .antMatchers(HttpMethod.POST, "/user/login").permitAll()
             .anyRequest().authenticated()
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

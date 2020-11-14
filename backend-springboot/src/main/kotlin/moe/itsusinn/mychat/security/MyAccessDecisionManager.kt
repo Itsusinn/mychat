@@ -38,11 +38,12 @@ class MyAccessDecisionManager : AccessDecisionManager {
 
         if (grantedAuthorities.isNullOrEmpty())
             throw InsufficientAuthenticationException("Credentials are not trusted")
-
-        configAttributes.forEach { configAttribute ->
-            grantedAuthorities.forEach { grantedAuthority ->
+        for (configAttribute in configAttributes) {
+            for (grantedAuthority in grantedAuthorities) {
+                val need = configAttribute.attribute.trim()
+                val has = grantedAuthority.authority.trim()
                 //只要有一个匹配就return
-                if (configAttribute.attribute.trim() == grantedAuthority.authority.trim()) return
+                if (need == has) return
             }
         }
         throw SpringSecurityAccessDeniedException("Access Deny")

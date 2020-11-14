@@ -19,6 +19,11 @@ class MyFilterSecurityInterceptor : AbstractSecurityInterceptor(), Filter {
     @Autowired
     private lateinit var securityMetadataSource: FilterInvocationSecurityMetadataSource
 
+    @Autowired
+    fun setMyAccessDecisionManager(myAccessDecisionManager: MyAccessDecisionManager) {
+        super.setAccessDecisionManager(myAccessDecisionManager)
+    }
+
     @Throws(IOException::class, ServletException::class)
     override fun doFilter(
         servletRequest: ServletRequest?,

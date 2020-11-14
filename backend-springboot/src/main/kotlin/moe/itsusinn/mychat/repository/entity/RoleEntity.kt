@@ -9,14 +9,13 @@ import org.ktorm.schema.varchar
 
 interface RoleEntity : Entity<RoleEntity> {
     companion object : Entity.Factory<RoleEntity>()
-
     var roleID: Long
     var name: String
 }
 
 object RoleTable : Table<RoleEntity>("role") {
-    val roleID = long("uid").primaryKey().bindTo { it.roleID }
-    val name = varchar("password").bindTo { it.name }
+    val roleID = long("role_id").primaryKey().bindTo { it.roleID }
+    val name = varchar("name").bindTo { it.name }
 }
 
 val Database.roles get() = this.sequenceOf(RoleTable)

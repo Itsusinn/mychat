@@ -11,6 +11,6 @@ class UserRoleService {
     lateinit var userRoleRepository: UserRoleRepository
 
     fun findRolesByUid(uid: Long): List<Role> {
-        return userRoleRepository.getRolesByUid(uid)
+        return userRoleRepository.getRolesByUserID(uid)
     }
 }
