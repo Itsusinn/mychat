@@ -15,18 +15,15 @@ class UserRepository(
     fun save(newUserEntity: UserEntity) {
         database.users.add(newUserEntity)
     }
-
     /**
      * 查询用户,存在则返回实例
      * 不存在则返回空
      */
     fun findUserByUsername(account: String): UserEntity? = database.users.find { it.username eq account }
-
     /**
      * 查询用户,存在则返回实例
      * 不存在则返回空
      */
     fun findUserByUid(uid: Long): UserEntity? = database.users.find { it.uid eq uid }
-
 
 }

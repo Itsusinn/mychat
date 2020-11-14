@@ -8,14 +8,12 @@ import moe.itsusinn.mychat.security.permission.Role
 import moe.itsusinn.mychat.security.permission.RolePermission
 import org.ktorm.database.Database
 import org.ktorm.dsl.eq
+import org.ktorm.dsl.forEach
 import org.ktorm.dsl.from
-import org.ktorm.dsl.map
 import org.ktorm.dsl.select
 import org.ktorm.entity.find
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
-
-
 
 @Repository
 class RolePermissionRepository {
@@ -25,23 +23,33 @@ class RolePermissionRepository {
 
     fun readRolePermissions(): List<RolePermission> {
         val rolePermissions = mutableListOf<RolePermission>()
-        return database
+        database
             .from(RolePermissionTable)
             .select()
-            .map { row ->
+            .forEach { row ->
                 val roleID = row[RolePermissionTable.roleID]
-                    ?: return@map null
+                    ?: return@forEach
                 val permissionID = row[RolePermissionTable.permissionID]
-                    ?: return@map null
-                createRolePermission(roleID, permissionID)
+                    ?: return@forEach
+                createRolePermission(roleID, permissionID)?.apply {
+                    rolePermissions.add(this)
+                }
             }
+        return rolePermissions
     }
 
     fun createRolePermission(roleID: Long, permissionID: Long): RolePermission? {
-        val roleEntity = database.roles.find { it.roleID eq roleID } ?: return null
+
+        val roleEntity = database.roles.find { it.roleID eq roleID }
+            ?: return null
+
         val role = Role(roleID, roleEntity.name)
-        val permissionEntity = database.permissions.find { it.permissionID eq permissionID } ?: return null
+
+        val permissionEntity = database.permissions.find { it.permissionID eq permissionID }
+            ?: return null
+
         val permission = Permission(permissionEntity.permissionID, permissionEntity.url)
+
         return RolePermission(role, permission)
     }
 }

@@ -37,16 +37,20 @@ class PostService(
 
     //get all comments
     fun getComments(postID: Long): List<CommentData> {
-        return database.from(CommentTable)
+        val comments = mutableListOf<CommentData>()
+        database.from(CommentTable)
             .select()
             .where { CommentTable.postID eq postID }
-            .map { row ->
+            .forEach { row ->
                 val commentID = row[CommentTable.commentID]
-                    ?: return@map null
-                val authorID = row[CommentTable.authorID] ?: 0L
-                val content = row[CommentTable.content] ?: ""
-                CommentData(postID, commentID, authorID, content)
+                    ?: return@forEach
+                val authorID = row[CommentTable.authorID]
+                    ?: return@forEach
+                val content = row[CommentTable.content]
+                    ?: return@forEach
+                comments.add(CommentData(postID, commentID, authorID, content))
             }
+        return comments
     }
     //get all posts
     fun getAllPosts(): List<PostData> {

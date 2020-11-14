@@ -31,7 +31,6 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter() {
             .anyRequest().authenticated()
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
     }
 
 }
