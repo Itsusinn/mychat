@@ -23,17 +23,18 @@ class RolePermissionRepository {
     @Autowired
     lateinit var database: Database
 
-    fun getRolePermissions(): List<RolePermission> {
+    fun readRolePermissions(): List<RolePermission> {
         val rolePermissions = mutableListOf<RolePermission>()
-        database
+        return database
             .from(RolePermissionTable)
             .select()
             .map { row ->
-                val roleID = row[RolePermissionTable.roleID] ?: return@map null
-                val permissionID = row[RolePermissionTable.permissionID] ?: return@map null
+                val roleID = row[RolePermissionTable.roleID]
+                    ?: return@map null
+                val permissionID = row[RolePermissionTable.permissionID]
+                    ?: return@map null
                 createRolePermission(roleID, permissionID)
             }
-        return rolePermissions
     }
 
     fun createRolePermission(roleID: Long, permissionID: Long): RolePermission? {

@@ -6,4 +6,6 @@ data class PostData(
     val title: String
 )
 
-typealias NewPost = PostData
+data class PostCreateRequest(
+    val title: String
+)

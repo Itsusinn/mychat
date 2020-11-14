@@ -20,10 +20,8 @@ class UserController {
 
     @Autowired
     lateinit var bCryptPasswordEncoder: BCryptPasswordEncoder
-
     @Autowired
     lateinit var userService: UserService
-
     @Autowired
     lateinit var userRoleService: UserRoleService
 
@@ -51,6 +49,7 @@ class UserController {
                 UUID.fromString(user.uid.toString()).toString(),
                 roles.joinToString(":")
             )
+
             return "token" to token
         }
     }

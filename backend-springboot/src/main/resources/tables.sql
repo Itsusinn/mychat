@@ -32,8 +32,7 @@ CREATE TABLE `permission`
     `permission_id` bigint(11)   not null primary key auto_increment,
     `url`           varchar(255) not null,
     `name`          varchar(255) not null,
-    `description`   varchar(255) NULL,
-    `pid`           bigint(11)   not null
+    `description` varchar(255) NULL
 );
 CREATE TABLE comment
 (
@@ -60,21 +59,17 @@ VALUES (1, 'USER');
 INSERT INTO role (role_id, name)
 VALUES (2, 'ADMIN');
 
-INSERT INTO permission (permission_id, url, name, pid)
-VALUES (1, '/user/common', 'common', 0);
-INSERT INTO permission (permission_id, url, name, pid)
-VALUES (2, '/user/admin', 'admin', 0);
+INSERT INTO permission (permission_id, url, name)
+VALUES (1, '/user/login', 'common');
+INSERT INTO permission (permission_id, url, name)
+VALUES (2, '/user/register', 'common');
+INSERT INTO permission (permission_id, url, name)
+VALUES (3, '/user/test', 'common');
+INSERT INTO permission (permission_id, url, name)
+VALUES (4, '/user/admin', 'admin');
 
 INSERT INTO user_role (user_id, role_id)
 VALUES (1, 1);
-INSERT INTO user_role (user_id, role_id)
-VALUES (2, 1);
-INSERT INTO user_role (user_id, role_id)
-VALUES (2, 2);
 
 INSERT INTO role_permission (role_id, permission_id)
 VALUES (1, 1);
-INSERT INTO role_permission (role_id, permission_id)
-VALUES (2, 1);
-INSERT INTO role_permission (role_id, permission_id)
-VALUES (2, 2);

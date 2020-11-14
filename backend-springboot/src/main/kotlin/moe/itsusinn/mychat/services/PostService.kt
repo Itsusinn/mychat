@@ -41,10 +41,11 @@ class PostService(
             .select()
             .where { CommentTable.postID eq postID }
             .map { row ->
-                val id = row[CommentTable.commentID] ?: 0
-                val author = row[CommentTable.authorID] ?: 0
+                val commentID = row[CommentTable.commentID]
+                    ?: return@map null
+                val authorID = row[CommentTable.authorID] ?: 0L
                 val content = row[CommentTable.content] ?: ""
-                CommentData(id, author, content)
+                CommentData(postID, commentID, authorID, content)
             }
     }
     //get all posts

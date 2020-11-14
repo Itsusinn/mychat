@@ -47,7 +47,7 @@ class MyInvocationSecurityMetadataSourceService : FilterInvocationSecurityMetada
      */
     fun loadResourceDefine() {
         //权限资源 和 角色对应的表  也就是 角色权限 中间表
-        val rolePermissions: List<RolePermission> = rolePermissionRepository.getRolePermissions()
+        val rolePermissions: List<RolePermission> = rolePermissionRepository.readRolePermissions()
 
         //某个资源 可以被哪些角色访问
         for (rolePermission in rolePermissions) {
