@@ -76,10 +76,8 @@ class AtriAuthenticationToken(
 
     @Deprecated("Useless", ReplaceWith("getUid()"))
     override fun getPrincipal(): Any = uid
-
     @Deprecated("Useless", ReplaceWith(""))
     override fun getCredentials(): Any = Unit
-
     @Deprecated("Useless", ReplaceWith(""))
     override fun getDetails(): Any = Unit
 }
@@ -108,28 +106,34 @@ class AtriAuthenticationFilter(url: String) :
 
         request ?: return null
         //从请求头中读取token
-
         return null
     }
 }
 
 /**
- *
+ * Authorization injector by intercept request
  */
 class AtriAuthorizationFilter(authManager: AuthenticationManager) : BasicAuthenticationFilter(authManager) {
-
+    /**
+     * core filter
+     */
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
         chain: FilterChain
     ) {
+        //read token from `Authentication` header
         val rawToken = request.getHeader("Authentication") ?: return
         val tokenData = parseToken(rawToken)
         val roles = tokenData.roles
         val authorities: MutableList<GrantedAuthority> = ArrayList()
+        //parse authorities instance for raw string
         roles.forEach { role -> authorities.add(SimpleGrantedAuthority("ROLE_$role")) }
+        //create Authorization instance
         val authentication = AtriAuthenticationToken(tokenData.uid, tokenData.uuid, authorities)
+        //inject Authorization instance
         SecurityContextHolder.getContext().authentication = authentication
+        //continue to next filter
         chain.doFilter(request, response)
     }
 
