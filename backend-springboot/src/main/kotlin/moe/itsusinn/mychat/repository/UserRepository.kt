@@ -20,7 +20,7 @@ class UserRepository(
      * 查询用户,存在则返回实例
      * 不存在则返回空
      */
-    fun findUserByAccount(account: String): UserEntity? = database.users.find { it.username eq account }
+    fun findUserByUsername(account: String): UserEntity? = database.users.find { it.username eq account }
 
     /**
      * 查询用户,存在则返回实例

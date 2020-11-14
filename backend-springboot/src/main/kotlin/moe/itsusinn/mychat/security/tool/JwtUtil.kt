@@ -14,6 +14,10 @@ fun generateToken(uid: Long, uuid: String, roles: List<String>): String {
     return objectKtMapper.writeValueAsString(tokenData).encodeBase64ToString()
 }
 
+fun generateToken(uid: Long, uuid: String, roles: String): String {
+    return generateToken(uid, uuid, roles.split(":"))
+}
+
 fun parseToken(rawBase64Token: String): TokenData {
     return try {
         objectKtMapper.readValue(rawBase64Token.decodeBase64())

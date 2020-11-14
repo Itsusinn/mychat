@@ -7,7 +7,7 @@ data class UserData(
     var password: String
 )
 
-data class NewUser(
+data class UserRegisterRequest(
     val username: String,
     val nick: String,
     var password: String
