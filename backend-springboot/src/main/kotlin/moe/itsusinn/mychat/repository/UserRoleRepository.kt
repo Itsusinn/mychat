@@ -1,11 +1,14 @@
 package moe.itsusinn.mychat.repository
 
 import moe.itsusinn.mychat.repository.entity.RoleTable
+import moe.itsusinn.mychat.repository.entity.UserRoleEntity
 import moe.itsusinn.mychat.repository.entity.UserRoleTable
+import moe.itsusinn.mychat.repository.entity.userRoles
 import moe.itsusinn.mychat.security.permission.Role
 import moe.itsusinn.mychat.security.permission.SecurityRole
 import org.ktorm.database.Database
 import org.ktorm.dsl.*
+import org.ktorm.entity.add
 import org.springframework.stereotype.Repository
 
 
@@ -33,5 +36,14 @@ class UserRoleRepository(
                 }
             }
         return roles
+    }
+
+    fun saveAsDefault(uid: Long) {
+        val newUserRole =
+            UserRoleEntity {
+                this.uid = uid
+                this.roleID = 1
+            }
+        database.userRoles.add(newUserRole)
     }
 }

@@ -1,6 +1,7 @@
 package moe.itsusinn.mychat.services
 
 import moe.itsusinn.mychat.repository.UserRepository
+import moe.itsusinn.mychat.repository.UserRoleRepository
 import moe.itsusinn.mychat.repository.entity.UserEntity
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -10,6 +11,9 @@ class UserService {
 
     @Autowired
     lateinit var userRepository: UserRepository
+
+    @Autowired
+    lateinit var userRoleRepository: UserRoleRepository
 
     /**
      * 校检密码是否正确
@@ -34,6 +38,7 @@ class UserService {
             this.password = password
         }
         userRepository.save(newUser)
+
         return newUser
     }
 
