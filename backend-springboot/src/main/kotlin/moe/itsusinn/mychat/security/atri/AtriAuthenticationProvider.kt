@@ -24,7 +24,7 @@ import kotlin.reflect.full.isSuperclassOf
  * @see AbstractUserDetailsAuthenticationProvider
  * @see DaoAuthenticationProvider
  */
-abstract class AtriAuthenticationProvider(
+class AtriAuthenticationProvider(
     private val atriValidator: AtriValidator
 ) : AuthenticationProvider {
 

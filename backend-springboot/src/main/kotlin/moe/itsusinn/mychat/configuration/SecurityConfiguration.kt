@@ -42,7 +42,7 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter() {
     //configure all the requests' rule
     override fun configure(httpSecurity: HttpSecurity) {
         httpSecurity.cors().and().csrf().disable()
-            .authenticationProvider(AtriAuthenticationProvider())
+            .authenticationProvider(AtriAuthenticationProvider(MyValidator()))
             .authorizeRequests()
             .antMatchers(HttpMethod.POST, SignUpUrl).permitAll()
             .anyRequest().authenticated()

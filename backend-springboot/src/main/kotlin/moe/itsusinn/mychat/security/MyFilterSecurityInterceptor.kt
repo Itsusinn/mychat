@@ -9,18 +9,15 @@ import org.springframework.stereotype.Component
 import java.io.IOException
 import javax.servlet.*
 
+/**
+ * 自定义FilterSecurityInterceptor
+ * 以使用自定义的 AccessDecisionManager 和 securityMetadataSource。
+ */
 @Component
 class MyFilterSecurityInterceptor : AbstractSecurityInterceptor(), Filter {
 
     @Autowired
-    private val securityMetadataSource: FilterInvocationSecurityMetadataSource? = null
-
-    @Autowired
-    fun setMyAccessDecisionManager(
-        myAccessDecisionManager: MyAccessDecisionManager?
-    ) {
-        super.setAccessDecisionManager(myAccessDecisionManager)
-    }
+    private lateinit var securityMetadataSource: FilterInvocationSecurityMetadataSource
 
     @Throws(IOException::class, ServletException::class)
     override fun doFilter(
@@ -28,26 +25,22 @@ class MyFilterSecurityInterceptor : AbstractSecurityInterceptor(), Filter {
         servletResponse: ServletResponse?,
         filterChain: FilterChain?
     ) {
-        val fi = FilterInvocation(servletRequest, servletResponse, filterChain)
-        invoke(fi)
+        val filterInvocation = FilterInvocation(servletRequest, servletResponse, filterChain)
+        invoke(filterInvocation)
     }
 
     @Throws(IOException::class, ServletException::class)
-    operator fun invoke(fi: FilterInvocation) {
-        val token = super.beforeInvocation(fi)
+    operator fun invoke(filterInvocation: FilterInvocation) {
+        val token = super.beforeInvocation(filterInvocation)
         try {
             //执行下一个拦截器
-            fi.chain.doFilter(fi.request, fi.response)
+            filterInvocation.chain.doFilter(filterInvocation.request, filterInvocation.response)
         } finally {
             super.afterInvocation(token, null)
         }
     }
 
-    override fun getSecureObjectClass(): Class<*> {
-        return FilterInvocation::class.java
-    }
+    override fun getSecureObjectClass(): Class<*> = FilterInvocation::class.java
 
-    override fun obtainSecurityMetadataSource(): SecurityMetadataSource {
-        return securityMetadataSource!!
-    }
+    override fun obtainSecurityMetadataSource(): SecurityMetadataSource = securityMetadataSource
 }

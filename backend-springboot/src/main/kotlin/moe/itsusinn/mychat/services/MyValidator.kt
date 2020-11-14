@@ -1,9 +1,9 @@
 package moe.itsusinn.mychat.services
 
 import moe.itsusinn.mychat.security.atri.AtriValidator
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 
-@Service
+@Component
 class MyValidator : AtriValidator {
     /**
      * 检查此Token是否在缓存中过期

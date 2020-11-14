@@ -17,7 +17,6 @@ class MyAccessDecisionManager : AccessDecisionManager {
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(MyAccessDecisionManager::class.java)
     }
-
     /**
      * 通过传递的参数来决定用户是否有访问对应受保护对象的权限
      *
@@ -32,18 +31,21 @@ class MyAccessDecisionManager : AccessDecisionManager {
         configAttributes: Collection<ConfigAttribute>?
     ) {
 
+        //该路由不需要权限，即attributes为空 directly return
         if (configAttributes.isNullOrEmpty()) return
-        var needRole: String
-        val iter = configAttributes.iterator()
-        while (iter.hasNext()) {
-            needRole = iter.next().attribute
-            for (ga in authentication.authorities) {
-                if (needRole.trim() == ga.authority.trim()) {
-                    return
-                }
+
+        val grantedAuthorities = authentication.authorities
+
+        if (grantedAuthorities.isNullOrEmpty())
+            throw InsufficientAuthenticationException("Credentials are not trusted")
+
+        configAttributes.forEach { configAttribute ->
+            grantedAuthorities.forEach { grantedAuthority ->
+                //只要有一个匹配就return
+                if (configAttribute.attribute.trim() == grantedAuthority.authority.trim()) return
             }
         }
-        throw SpringSecurityAccessDeniedException("当前访问没有权限")
+        throw SpringSecurityAccessDeniedException("Access Deny")
 
     }
 

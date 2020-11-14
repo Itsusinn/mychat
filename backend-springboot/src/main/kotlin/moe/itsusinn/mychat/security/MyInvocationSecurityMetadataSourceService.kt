@@ -32,17 +32,12 @@ class MyInvocationSecurityMetadataSourceService : FilterInvocationSecurityMetada
      */
     @Throws(IllegalArgumentException::class)
     override fun getAttributes(o: Any): Collection<ConfigAttribute>? {
-        if (map.isNullOrEmpty()) {
-            loadResourceDefine()
-        }
+        if (map.isNullOrEmpty()) loadResourceDefine()
+
         //object 中包含用户请求的request 信息
         val request = (o as FilterInvocation).httpRequest
-        val it: Iterator<String> = map.keys.iterator()
-        while (it.hasNext()) {
-            val url = it.next()
-            if (AntPathRequestMatcher(url).matches(request)) {
-                return map[url]!!
-            }
+        map.keys.forEach { url ->
+            if (AntPathRequestMatcher(url).matches(request)) return map[url]
         }
         return null
     }
@@ -59,11 +54,10 @@ class MyInvocationSecurityMetadataSourceService : FilterInvocationSecurityMetada
             val url: String = rolePermission.permission.url
             val roleName: String = rolePermission.role.name
             val role: ConfigAttribute = SecurityConfig(roleName)
-            map[url]?.add(role) ?: run {
-                val list: MutableList<ConfigAttribute> = ArrayList()
-                list.add(role)
-                map[url] = list
-            }
+
+            if (map[url] == null) map[url] = ArrayList()
+            //将role添加到permission对应的url上
+            map[url]!!.add(role)
         }
     }
 
