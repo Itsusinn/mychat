@@ -4,6 +4,7 @@ import moe.itsusinn.mychat.security.atri.AtriAuthenticationInjectFilter
 import moe.itsusinn.mychat.security.atri.AtriAuthenticationProvider
 import moe.itsusinn.mychat.services.MyValidator
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -13,6 +14,7 @@ import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
+@Configuration
 @EnableWebSecurity
 class SecurityConfiguration : WebSecurityConfigurerAdapter() {
 

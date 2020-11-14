@@ -5,17 +5,14 @@ import io.swagger.annotations.ApiOperation
 import moe.itsusinn.mychat.models.request.UserLoginRequest
 import moe.itsusinn.mychat.models.request.UserRegisterRequest
 import moe.itsusinn.mychat.models.respond.Status
+import moe.itsusinn.mychat.models.respond.UserLoginRespond
 import moe.itsusinn.mychat.models.respond.UserRegisterRespond
 import moe.itsusinn.mychat.security.tool.generateToken
 import moe.itsusinn.mychat.services.UserRoleService
 import moe.itsusinn.mychat.services.UserService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.util.*
 
 @Api(tags = ["用户管理"])
@@ -32,12 +29,12 @@ class UserController {
     @Autowired
     lateinit var userRoleService: UserRoleService
 
-    @RequestMapping("test")
+    @GetMapping("test")
     fun sayHello(): String {
         return "Hello"
     }
 
-    @ApiOperation(value = "注册用户", response = UserRegisterRespond::class)
+    @ApiOperation(value = "注册新用户")
     @PostMapping("register")
     fun register(@RequestBody userRegisterRequest: UserRegisterRequest): UserRegisterRespond {
         userRegisterRequest.apply {
@@ -48,19 +45,19 @@ class UserController {
         }
     }
 
+    @ApiOperation(value = "登陆，获取token")
     @PostMapping("login")
-    fun login(@RequestBody userLoginRequest: UserLoginRequest): Pair<String, String> {
+    fun login(@RequestBody userLoginRequest: UserLoginRequest): UserLoginRespond {
         userLoginRequest.apply {
             val user = userService.checkPassword(username, password)
-                ?: throw BadCredentialsException("Wrong Password")
+                ?: return UserLoginRespond(Status.Failed, "")
             val roles = userRoleService.findRolesByUid(user.userID)
             val token = generateToken(
                 user.userID,
                 UUID.fromString(user.userID.toString()).toString(),
                 roles.joinToString(":")
             )
-
-            return "token" to token
+            return UserLoginRespond(Status.Success, token)
         }
     }
 }
