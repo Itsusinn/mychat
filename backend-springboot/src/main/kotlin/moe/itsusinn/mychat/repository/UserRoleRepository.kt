@@ -23,14 +23,14 @@ class UserRoleRepository(
             .select()
             .where { UserRoleTable.uid eq uid }
             .forEach {
-                val roleID = it[UserRoleTable.roleID] ?: -1L
+                val roleID = it[UserRoleTable.roleID] ?: return@forEach
                 roleIDs.add(roleID)
             }
         database.from(RoleTable)
             .select()
             .forEach { row ->
-                val roleID = row[RoleTable.roleID] ?: -1L
-                val name = row[RoleTable.name] ?: ""
+                val roleID = row[RoleTable.roleID] ?: return@forEach
+                val name = row[RoleTable.name] ?: return@forEach
                 if (roleIDs.contains(roleID)) {
                     roles.add(Role(roleID, name))
                 }

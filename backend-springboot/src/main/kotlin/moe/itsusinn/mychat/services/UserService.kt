@@ -11,7 +11,6 @@ class UserService {
 
     @Autowired
     lateinit var userRepository: UserRepository
-
     @Autowired
     lateinit var userRoleRepository: UserRoleRepository
 
@@ -26,7 +25,7 @@ class UserService {
 
     /**
      * 添加一个新用户
-     * 有重复account则返回null
+     * 有重复username则返回null
      */
     fun registerUser(username: String, nick: String, password: String): UserEntity? {
         val repeat = userRepository.findUserByUsername(username)
@@ -38,7 +37,7 @@ class UserService {
             this.password = password
         }
         userRepository.save(newUser)
-
+        userRoleRepository.saveAsDefault(newUser.uid)
         return newUser
     }
 
