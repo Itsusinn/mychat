@@ -2,12 +2,15 @@ package moe.itsusinn.mychat.services
 
 import moe.itsusinn.mychat.repository.UserRepository
 import moe.itsusinn.mychat.repository.entity.UserEntity
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class UserService(
-    val userRepository: UserRepository
-) {
+class UserService {
+
+    @Autowired
+    lateinit var userRepository: UserRepository
+
     /**
      * 校检密码是否正确
      */
@@ -20,7 +23,7 @@ class UserService(
      * 添加一个新用户
      * 有重复account则返回null
      */
-    fun addNewUser(account: String, nick: String, password: String): UserEntity? {
+    fun registerUser(account: String, nick: String, password: String): UserEntity? {
         val repeat = userRepository.findUserByAccount(account)
         //如果有重复的则返回null
         if (repeat != null) return null
@@ -29,7 +32,7 @@ class UserService(
             this.nick = nick
             this.password = password
         }
-        userRepository.addUser(newUser)
+        userRepository.save(newUser)
         return newUser
     }
 

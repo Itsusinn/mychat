@@ -22,28 +22,28 @@ class MyInvocationSecurityMetadataSourceService : FilterInvocationSecurityMetada
 
     companion object {
         /**
-         * 每一个资源所需要的角色 Collection<ConfigAttribute>决策器会用到
+         * 每一个资源所需要的角色 决策器会用到
          */
-        private lateinit var map: HashMap<String, MutableCollection<ConfigAttribute>>
+        private lateinit var mapper: HashMap<String, MutableCollection<ConfigAttribute>>
     }
 
     /**
-     * 返回请求的资源需要的角色
+     * @return which roles this resource need
      */
     @Throws(IllegalArgumentException::class)
     override fun getAttributes(o: Any): Collection<ConfigAttribute>? {
-        if (map.isNullOrEmpty()) loadResourceDefine()
+        if (mapper.isNullOrEmpty()) loadResourceDefine()
 
         //object 中包含用户请求的request 信息
         val request = (o as FilterInvocation).httpRequest
-        map.keys.forEach { url ->
-            if (AntPathRequestMatcher(url).matches(request)) return map[url]
+        mapper.keys.forEach { url ->
+            if (AntPathRequestMatcher(url).matches(request)) return mapper[url]
         }
         return null
     }
 
     /**
-     * 初始化 所有资源 对应的角色s
+     * init the mapper
      */
     fun loadResourceDefine() {
         //权限资源 和 角色对应的表  也就是 角色权限 中间表
@@ -55,9 +55,9 @@ class MyInvocationSecurityMetadataSourceService : FilterInvocationSecurityMetada
             val roleName: String = rolePermission.role.name
             val role: ConfigAttribute = SecurityConfig(roleName)
 
-            if (map[url] == null) map[url] = ArrayList()
+            if (mapper[url] == null) mapper[url] = ArrayList()
             //将role添加到permission对应的url上
-            map[url]!!.add(role)
+            mapper[url]!!.add(role)
         }
     }
 

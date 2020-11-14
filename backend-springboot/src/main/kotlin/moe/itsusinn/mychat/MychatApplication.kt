@@ -7,7 +7,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 @SpringBootApplication
 class MychatApplication{
-
     @Bean
     fun bCryptPasswordEncoder(): BCryptPasswordEncoder = BCryptPasswordEncoder()
 }

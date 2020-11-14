@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 /**
- * Authorization injector by intercept request
+ * Authentication injector by intercept request
  */
-class AtriAuthorizationInjectFilter(authManager: AuthenticationManager) : BasicAuthenticationFilter(authManager) {
+class AtriAuthenticationInjectFilter(authManager: AuthenticationManager) : BasicAuthenticationFilter(authManager) {
     /**
      * core filter
      */

@@ -1,5 +1,6 @@
 package moe.itsusinn.mychat.configuration
 
+import moe.itsusinn.mychat.security.atri.AtriAuthenticationInjectFilter
 import moe.itsusinn.mychat.security.atri.AtriAuthenticationProvider
 import moe.itsusinn.mychat.services.MyValidator
 import org.springframework.context.annotation.Bean
@@ -25,6 +26,7 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter() {
     override fun configure(httpSecurity: HttpSecurity) {
         httpSecurity.cors().and().csrf().disable()
             .authenticationProvider(AtriAuthenticationProvider(MyValidator()))
+            .addFilter(AtriAuthenticationInjectFilter(authenticationManager()))
             .authorizeRequests()
             .anyRequest().authenticated()
             .and()

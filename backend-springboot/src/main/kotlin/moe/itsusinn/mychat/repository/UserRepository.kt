@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository
 class UserRepository(
     val database: Database
 ) {
-    fun addUser(newUserEntity: UserEntity) {
+    fun save(newUserEntity: UserEntity) {
         database.users.add(newUserEntity)
     }
 
