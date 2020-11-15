@@ -4,5 +4,4 @@ spring:
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/mychat?useUnicode=true&characterEncoding=utf-8&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false
     username: root
-    password: X*2Jzh.m;Mrj
     type: com.alibaba.druid.pool.DruidDataSource

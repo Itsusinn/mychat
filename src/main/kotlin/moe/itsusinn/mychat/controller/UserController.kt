@@ -49,8 +49,12 @@ class UserController {
     @PostMapping("login")
     fun login(@RequestBody userLoginRequest: UserLoginRequest): UserLoginRespond {
         userLoginRequest.apply {
-            val user = userService.checkPassword(username, password)
-                ?: return UserLoginRespond(Status.Failed, "")
+
+            val user = userService.checkPassword(
+                username,
+                bCryptPasswordEncoder.encode(password)
+            ) ?: return UserLoginRespond(Status.Failed, "")
+
             val roles = userRoleService.findRolesByUid(user.userID)
             val token = generateToken(
                 user.userID,
