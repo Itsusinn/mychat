@@ -11,6 +11,8 @@ group = "moe.itsusinn"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
+    maven("http://maven.aliyun.com/nexus/content/groups/public/")
+    maven("http://maven.aliyun.com/nexus/content/repositories/jcenter")
     jcenter()
     mavenCentral()
 }
