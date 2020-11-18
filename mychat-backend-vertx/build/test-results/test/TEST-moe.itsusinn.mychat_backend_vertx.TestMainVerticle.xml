@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="moe.itsusinn.mychat_backend_vertx.TestMainVerticle" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-11-17T13:43:14" hostname="pop-os" time="0.322">
-  <properties/>
-  <testcase name="verticle_deployed(Vertx, VertxTestContext)" classname="moe.itsusinn.mychat_backend_vertx.TestMainVerticle" time="0.322"/>
-  <system-out><![CDATA[HTTP server started on port 8888
-]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
