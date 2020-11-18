@@ -44,8 +44,8 @@ dependencies {
   testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiterVersion")
 }
 
-  val compileKotlin: KotlinCompile by tasks
-  compileKotlin.kotlinOptions.jvmTarget = "11"
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions.jvmTarget = "11"
 
 tasks.withType<ShadowJar> {
   archiveClassifier.set("fat")
