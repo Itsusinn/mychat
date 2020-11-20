@@ -1,25 +1,14 @@
 package moe.itsusinn.mychat
 
-import io.vertx.core.AbstractVerticle
-import io.vertx.core.Promise
+import io.vertx.kotlin.coroutines.CoroutineVerticle
+import moe.itsusinn.mychat.router.HelloRouter
 
-class MychatVerticle(private val port:Int) : AbstractVerticle() {
+class MychatVerticle : CoroutineVerticle() {
 
-  override fun start(startPromise: Promise<Void>) {
-    vertx
-      .createHttpServer()
-      .requestHandler { req ->
-        req.response()
-          .putHeader("content-type", "text/plain")
-          .end("Hello from Vert.x!")
-      }
-      .listen(port) { http ->
-        if (http.succeeded()) {
-          startPromise.complete()
-          println("HTTP server started on port 8888")
-        } else {
-          startPromise.fail(http.cause());
-        }
-      }
-  }
+   override suspend fun start() {
+      vertx
+         .createHttpServer()
+         .requestHandler(HelloRouter.create(vertx))
+         .listen(7433)
+   }
 }
