@@ -1,4 +1,4 @@
-package moe.itsusinn.mychat.router
+package io.github.itsusinn.mychat.router
 
 import io.vertx.core.Vertx
 import io.vertx.ext.web.Router

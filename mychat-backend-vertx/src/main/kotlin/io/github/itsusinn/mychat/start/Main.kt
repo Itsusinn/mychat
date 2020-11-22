@@ -1,4 +1,4 @@
-package moe.itsusinn.mychat
+package io.github.itsusinn.mychat.start
 
 import io.vertx.core.Vertx
 

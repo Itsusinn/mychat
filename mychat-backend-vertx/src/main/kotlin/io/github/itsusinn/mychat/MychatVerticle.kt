@@ -1,8 +1,7 @@
-package moe.itsusinn.mychat
+package io.github.itsusinn.mychat
 
 import io.vertx.kotlin.coroutines.CoroutineVerticle
-import moe.itsusinn.mychat.router.AuthenticationRequestHandler
-import moe.itsusinn.mychat.router.HelloRouter
+import io.github.itsusinn.mychat.router.HelloRouter
 
 class MychatVerticle : CoroutineVerticle() {
 
