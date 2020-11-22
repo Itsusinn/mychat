@@ -1,6 +1,5 @@
 package moe.itsusinn.mychat.router
 
-import io.vertx.core.Vertx
 import io.vertx.core.http.HttpServerResponse
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
